@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const title='Contribute to scrobbling interoperability — Scrobble.dev';
+const description='Contribute scrobbling definitions, mappings, edge cases, examples, tests, documentation, data analysis, Floppy fixes, or FloppyDesktop improvements.';
+---
+<BaseLayout {title} {description}>
+  <div class="shell">
+    <section class="hero">
+      <p class="eyebrow">Contribute</p><h1>Bring a real tracking problem.</h1>
+      <p class="lede">The fastest way to improve media tracking is to document failures precisely: what a user did, what event was recorded, which identifiers were involved, what information was lost, and what a portable result should look like.</p>
+      <div class="actions"><a class="button primary" href="https://github.com/dannyvfilms/Floppy/issues">Work on Floppy</a><a class="button tonal" href="https://github.com/Electric-Town/scrobble.dev/issues">Improve the knowledge base</a><a class="button outline" href="https://github.com/Electric-Town/FloppyDesktop/issues">Work on FloppyDesktop</a></div>
+    </section>
+    <section class="section" aria-labelledby="paths"><p class="eyebrow">Contribution paths</p><h2 id="paths">Code is only one useful contribution.</h2><div class="grid">
+      <article class="card"><h3>Implementers</h3><p>Fix sync behavior, imports, exports, APIs, metadata resolution, progress semantics, duplicate handling, desktop integration, or tests.</p></article>
+      <article class="card"><h3>Users</h3><p>Provide reproducible examples, screenshots, sample exports with private data removed, provider behavior, and expected outcomes.</p></article>
+      <article class="card"><h3>Metadata specialists</h3><p>Document identifier crosswalks, edition relationships, numbering schemes, provider conflicts, canonicalization and confidence rules.</p></article>
+      <article class="card"><h3>Data practitioners</h3><p>Test event models against large histories, measure ambiguity and duplication, propose reconciliation heuristics, and publish anonymized fixtures.</p></article>
+      <article class="card"><h3>Documentation contributors</h3><p>Improve definitions, examples, troubleshooting, migration notes, knowledge concepts, terminology, diagrams and accessibility.</p></article>
+      <article class="card"><h3>Tool builders</h3><p>Build producers, consumers, validators, converters and visualizers around the open knowledge bundle or scrobble event examples.</p></article>
+    </div></section>
+    <section class="section"><div class="reading"><p class="eyebrow">A useful issue</p><h2>Make the problem reconstructable.</h2>
+      <div class="definition"><strong>Context</strong><span>Media type, tool/player, tracker, integration direction, and relevant versions.</span></div>
+      <div class="definition"><strong>Identity</strong><span>Provider IDs and titles involved, with personal account identifiers removed.</span></div>
+      <div class="definition"><strong>Observed</strong><span>The event or state that actually occurred.</span></div>
+      <div class="definition"><strong>Expected</strong><span>The event or state that should have resulted and why.</span></div>
+      <div class="definition"><strong>Round trip</strong><span>What happens if the record is exported, synchronized twice, corrected, then imported again.</span></div>
+      <div class="definition"><strong>Evidence</strong><span>Logs, API payloads, fixtures, screenshots or documentation sufficient to verify the claim.</span></div>
+    </div></section>
+    <section class="section callout"><p class="eyebrow">Knowledge contributions</p><h2>Write once; make it useful to people and agents.</h2><p>Concept documents use Markdown with YAML metadata, stable paths, explicit relationships, source links, freshness information and provenance. This follows the Open Knowledge Format approach: knowledge should remain readable without a proprietary service and traversable without a bespoke integration.</p><div class="actions"><a class="button primary" href="https://github.com/Electric-Town/scrobble.dev/tree/main/knowledge">Browse knowledge</a><a class="button outline" href="/standard/">Read the working standard</a></div></section>
+  </div>
+</BaseLayout>
