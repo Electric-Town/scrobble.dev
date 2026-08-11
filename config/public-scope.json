@@ -1,0 +1,13 @@
+{
+  "description": "Internal public-output exclusion rules. Do not copy these terms into public content.",
+  "rules": [
+    { "id": "adjacent-repository", "pattern": "anime-crosswalk-mappings" },
+    { "id": "adjacent-domain-term", "pattern": "\\bcrosswalks?\\b" },
+    { "id": "adjacent-problem", "pattern": "\\bidentifier[- ](?:mapping|resolution)\\b" },
+    { "id": "adjacent-problem-provider", "pattern": "\\bprovider[- ]?id (?:mapping|resolution)\\b" },
+    { "id": "research-tool-aiometadata", "pattern": "\\baiometadata\\b" },
+    { "id": "research-tool-nuvio", "pattern": "\\bnuvio(?: mobile)?\\b" },
+    { "id": "research-project-rensetsu", "pattern": "\\brensetsu\\b" },
+    { "id": "research-project-anibridge", "pattern": "\\banibridge\\b" }
+  ]
+}

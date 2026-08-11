@@ -5,8 +5,12 @@ export const prerender = true;
 const quote = (value) => `"${String(value ?? '').replaceAll('"', '""')}"`;
 
 export function GET() {
-  const rows = PROJECTS.map((project) => [project.name, project.media.join('|'), project.role, project.capture, project.source, project.license, project.url, project.repository, project.contribute].map(quote).join(','));
-  return new Response(['name,media,role,capture,source,license,url,repository,contribute', ...rows].join('\n'), {
+  const rows = PROJECTS.map((project) => [
+    project.id, project.name, project.summary, project.media.join('|'), project.category, project.capture,
+    project.sourceState, project.license, project.lifecycle, project.checkedAt,
+    project.url, project.repository, project.contribute, project.sources[0].url
+  ].map(quote).join(','));
+  return new Response(['id,name,summary,media,category,capture,source_state,license,lifecycle,checked_at,url,repository,contribute,primary_source', ...rows].join('\n'), {
     headers: { 'Content-Type': 'text/csv; charset=utf-8' }
   });
 }

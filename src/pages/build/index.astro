@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'Build reliable scrobbling — Scrobble.dev';
+const description = 'Implementation guidance for durable media events, native progress, provenance, safe retry, correction and export.';
+const schema = [{ '@context': 'https://schema.org', '@type': 'TechArticle', headline: 'Build reliable scrobbling', description, dateModified: '2026-08-11', author: { '@type': 'Organization', name: 'Scrobble.dev' } }];
+---
+<BaseLayout {title} {description} type="TechArticle" schema={schema} modified="2026-08-11" status="stable">
+  <article class="shell section article">
+    <div class="article-body">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Field guide</a><span aria-hidden="true">/</span><span aria-current="page">Build</span></nav>
+      <p class="kicker">Build</p>
+      <h1>Record enough context to retry, correct and export.</h1>
+      <p class="standfirst">A reliable implementation distinguishes temporary observations from durable history, preserves the medium's native progress and makes an ordinary retry harmless.</p>
+
+      <h2>Start with the event boundary</h2>
+      <p>Decide which input is temporary player state, which input updates progress and which input creates durable history. Do not rely on the transport endpoint to define the domain event.</p>
+
+      <h2>Preserve five facts</h2>
+      <ol>
+        <li><strong>Event identity:</strong> a stable identifier for the durable record.</li>
+        <li><strong>Media context:</strong> the work or unit known by the source.</li>
+        <li><strong>Represented time:</strong> playback, diary or completion time, named explicitly.</li>
+        <li><strong>Native progress:</strong> value, unit and denominator when one exists.</li>
+        <li><strong>Provenance:</strong> manual entry, player, import, webhook, correction or sync.</li>
+      </ol>
+
+      <h2>Design correction before synchronization</h2>
+      <p>Users need to fix a wrong title, timestamp or duplicate before the record is copied elsewhere. Exports should preserve corrections and deletions instead of requiring a false replacement event.</p>
+
+      <h2>Test the failure path</h2>
+      <p>Retry the same logical event. Deliver events out of order. Interrupt an import. Apply a remote update while local progress is dirty. Verify that the final history remains explainable.</p>
+
+      <p class="contribution-note">Review the <a href="/standard/">draft principles</a>. Add a sourced implementation note to <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">Scrobble.dev</a>, or contribute a reproducible software case to <a href="https://github.com/dannyvfilms/Floppy/issues">Floppy</a>.</p>
+    </div>
+  </article>
+</BaseLayout>

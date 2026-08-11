@@ -1,0 +1,19 @@
+{
+  "version": "0.2",
+  "upstream_revision": "374e0bc4c644310ff56cdf9c0fe81eccdec862b0",
+  "bundle": "public/knowledge",
+  "specification": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md",
+  "raw_specification": "https://raw.githubusercontent.com/GoogleCloudPlatform/knowledge-catalog/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md",
+  "sections": {
+    "3": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md#L109-L152",
+    "4": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md#L153-L276",
+    "5": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md#L277-L433",
+    "6": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md#L434-L485",
+    "7": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md#L486-L501",
+    "8": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md#L502-L529",
+    "9": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md#L530-L552",
+    "10": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md#L553-L732",
+    "11": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md#L733-L762",
+    "12": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md#L763-L792"
+  }
+}

@@ -1,46 +1,29 @@
-# Deploy scrobble.dev on Cloudflare
+# Deployment and production drift
 
-## Preferred path
+GitHub is the canonical source for Scrobble.dev. The public Sites deployment is built from the same commit and exposes that commit at `/release.json` and in the `source-commit` page metadata.
 
-Use a Cloudflare Pages project connected to `Electric-Town/scrobble.dev`.
+## Release sequence
 
-- Production branch: `main`
-- Build command: `npm run build`
-- Build output directory: `dist`
-- Node.js: 22
-- Custom domain: `scrobble.dev`
+1. Merge a pull request after the `Quality` workflow passes.
+2. Build the merged commit with `SCROBBLE_RELEASE_SHA` set to the full commit SHA.
+3. Package the generated `dist/server/index.js` and `.openai/hosting.json` with the Sites packaging helper.
+4. Save and deploy that exact commit through Sites.
+5. Verify `https://scrobble.dev/release.json`, representative routes, machine-readable files and the required footer links.
+6. Run the `Production drift` workflow manually after deployment.
 
-Astro produces a static site, so no application runtime is required for the current architecture.
+The scheduled drift check runs every six hours. It compares the production fingerprint with the current `main` commit and fails with a remediation message when they differ. Production does not receive a GitHub write credential.
 
-## Domain
+## Custom domain
 
-In the Cloudflare project, add `scrobble.dev` as the production custom domain. Keep DNS proxied through Cloudflare. Add `www.scrobble.dev` only if it will redirect canonically to the apex domain; the site itself declares `https://scrobble.dev` as canonical.
+The Sites project is recorded in `.openai/hosting.json`. Domain and certificate state are managed through Sites and Cloudflare; credentials and validation tokens are never stored in the repository.
 
-## Search and discovery after first production deploy
+## Search and discovery after deployment
 
-1. Verify `/robots.txt` returns 200.
-2. Verify `/sitemap-index.xml` returns 200.
-3. Verify `/llms.txt` and `/knowledge/index.md` return 200.
-4. Run key pages through Google Rich Results Test and Schema Markup Validator.
-5. Add the domain to Google Search Console and submit `https://scrobble.dev/sitemap-index.xml`.
-6. Inspect canonical handling for apex versus `www` and HTTP versus HTTPS.
-7. Verify social preview metadata.
+1. Verify `/robots.txt`, `/sitemap-index.xml`, `/llms.txt` and `/knowledge/index.md`.
+2. Validate representative pages with Google Rich Results Test and Schema Markup Validator.
+3. Submit `https://scrobble.dev/sitemap-index.xml` in Google Search Console.
+4. Verify canonical handling and social metadata.
 
-## Accessibility QA
+## Manual release checks
 
-Test at minimum:
-- keyboard-only navigation
-- 200% and 400% zoom/reflow
-- narrow mobile viewport
-- `prefers-reduced-motion`
-- screen-reader landmark/heading navigation
-- focus visibility
-- contrast for text, links, focus rings, and tonal surfaces
-
-## UX review
-
-Before significant visual releases, review the major flows against Nielsen's usability heuristics and the relevant Gestalt principles. Record concrete failures and fixes rather than checking principles off as labels.
-
-## Security and privacy
-
-The current site is static and has no forms, accounts, cookies, analytics, or server-side data. If those are added later, document data collection before deployment and keep optional telemetry separate from core site operation.
+Test keyboard navigation, screen-reader landmarks and headings, 200% and 400% reflow, text spacing, forced colours, reduced motion, focus visibility, table comprehension and link contrast.

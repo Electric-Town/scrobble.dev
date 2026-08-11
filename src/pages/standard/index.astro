@@ -1,43 +1,43 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-const title='Scrobbling interoperability principles — Scrobble.dev';
-const description='A working, implementation-neutral set of principles for portable media scrobble events, identity, provenance, synchronization, correction, and user-controlled history.';
-const schema=[{'@context':'https://schema.org','@type':'TechArticle',headline:'Scrobbling interoperability principles',description,dateModified:'2026-08-11',version:'0.1-draft',author:{'@type':'Organization',name:'Scrobble.dev'}}];
+
+const title = 'Draft scrobbling principles — Scrobble.dev';
+const description = 'Scrobble.dev discussion-draft principles for portable media activity, provenance, safe retry, correction and export.';
+const principles = [
+  ['Keep different records distinct', 'A temporary observation, durable event, progress state, completion decision, rating, list entry and collection item have different jobs.'],
+  ['Preserve the media context the source knew', 'Keep source-local identity and item grain instead of silently replacing the record with a preferred provider.'],
+  ['Name each time', 'Playback start, completion, diary date, import time and receipt time answer different questions.'],
+  ['Keep native progress', 'Seconds, pages, chapters, episodes, sessions and turns remain available before a percentage is derived.'],
+  ['Record provenance', 'Manual entries, player telemetry, imports, webhooks, corrections and synchronized copies carry different evidence.'],
+  ['Make retry harmless', 'Receiving the same logical event again must not manufacture another history entry.'],
+  ['Support correction and removal', 'A person must be able to fix a wrong item, time or duplicate and remove history they do not want retained.'],
+  ['Design export with the record', 'A documented export and its known losses are part of correctness, not a later courtesy.']
+];
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'Draft scrobbling principles',
+  description,
+  dateModified: '2026-08-11',
+  version: '0.1-discussion-draft',
+  author: { '@type': 'Organization', name: 'Scrobble.dev' }
+}];
 ---
-<BaseLayout {title} {description} type="TechArticle" schema={schema}>
-  <div class="shell section article">
-    <article class="article-body">
-      <p class="eyebrow">Working draft · 0.1</p><h1>Scrobbling interoperability principles</h1>
-      <p class="lede">This is a deliberately small interoperability layer: enough shared language to exchange media activity without forcing every tracker, player, library, metadata provider, or research project into one data model.</p>
-      <div class="callout"><strong>Status:</strong> discussion draft. Implementations may adopt, critique, extend, or map to it. Compatibility claims should name the version and any extensions rather than imply universal conformance.</div>
-      <h2 id="model">1. Separate the domain concepts</h2>
-      <p>A scrobble event, media entity, user state, rating, collection item, list membership, and derived statistic are distinct concepts. Systems may present them together but should preserve that distinction in storage and exchange.</p>
-      <h2 id="event">2. Events should be reconstructable</h2>
-      <p>An exchanged event should contain, or reference, enough information to answer: <em>what happened, to what, when, how much, and according to whom?</em></p>
-      <p>Recommended event fields include a stable event identifier, event type, media type, subject identity, occurred-at timestamp, recorded-at timestamp, progress/completion state, provenance, and optional context.</p>
-      <h2 id="identity">3. Identity is plural</h2>
-      <p>No single metadata provider is authoritative for every medium. A record should be capable of carrying multiple external identifiers plus local identity. Crosswalks should preserve source and confidence instead of silently replacing IDs.</p>
-      <h2 id="time">4. Time has semantics</h2>
-      <p>“Watched at” can mean playback start, threshold reached, completion, manual diary date, import date, or sync receipt time. Exchanges should distinguish event time from record-ingestion time when the difference is known.</p>
-      <h2 id="progress">5. Progress is medium-specific</h2>
-      <p>Percent complete is useful but insufficient as a universal truth. Systems should allow native measures such as milliseconds, pages, chapters, episodes, tracks, sessions, turns, or explicit completion states and derive percentages where appropriate.</p>
-      <h2 id="provenance">6. Preserve provenance</h2>
-      <p>Manual entries, imports, webhooks, player telemetry, inferred events and synchronization copies have different reliability characteristics. Provenance should survive round trips so corrections and conflicts can be reasoned about later.</p>
-      <h2 id="sync">7. Synchronization must be idempotent</h2>
-      <p>Repeatedly receiving the same logical event should not create unlimited duplicate history. Implementations should expose enough identity or deduplication material to make safe retry possible.</p>
-      <h2 id="correction">8. Corrections are first-class</h2>
-      <p>Users need to amend timestamps, identity, progress and duplicate events. Systems should support deletion or tombstoning and should not require a false replacement event to correct history.</p>
-      <h2 id="ownership">9. Portability is part of correctness</h2>
-      <p>A tracker should provide a practical export path for user history and clearly document fields that cannot round-trip. Proprietary enhancements are compatible with this principle when a stable portable core remains available.</p>
-      <h2 id="privacy">10. Minimize unnecessary telemetry</h2>
-      <p>Scrobbling can reveal sensitive habits and routines. Exchange formats should avoid requiring device, location, account, or behavioral metadata that is not necessary for the requested tracking function.</p>
-      <h2 id="knowledge">11. Documentation is part of the interface</h2>
-      <p>Definitions, mappings, examples, known edge cases, provenance rules and version changes should be version-controlled next to implementations. Scrobble.dev publishes its knowledge layer as plain Markdown with structured metadata so humans and agents can inspect the same source.</p>
-      <h2 id="extensions">12. Extend without pretending consensus</h2>
-      <p>Media domains will need richer concepts. Extensions should identify their namespace or owning project, document semantics, and retain a mapping to the portable core when possible.</p>
-      <h2 id="participate">Participate</h2>
-      <p>The standard should develop through concrete interoperability failures: duplicate plays, ambiguous editions, anime numbering conflicts, podcast GUID changes, game platform variants, imports that lose timestamps, and similar cases. <a href="/contribute/">Contribute a case, mapping, example, or implementation note</a>.</p>
-    </article>
-    <aside class="toc" aria-label="On this page"><strong>Principles</strong><ul><li><a href="#model">Concepts</a></li><li><a href="#event">Events</a></li><li><a href="#identity">Identity</a></li><li><a href="#time">Time</a></li><li><a href="#progress">Progress</a></li><li><a href="#provenance">Provenance</a></li><li><a href="#sync">Sync</a></li><li><a href="#correction">Correction</a></li><li><a href="#ownership">Portability</a></li><li><a href="#privacy">Privacy</a></li></ul></aside>
-  </div>
+<BaseLayout {title} {description} type="TechArticle" schema={schema} markdown="/knowledge/concepts/interoperability.md" modified="2026-08-11" status="discussion draft 0.1">
+  <article class="shell section article">
+    <div class="article-body">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Field guide</a><span aria-hidden="true">/</span><span aria-current="page">Draft profiles</span></nav>
+      <p class="kicker">Scrobble.dev discussion draft 0.1</p>
+      <h1>Eight draft principles for exchanging scrobble data.</h1>
+      <p class="standfirst">Scrobble.dev publishes these principles for testing and comment. They are not an adopted industry standard, and no implementation is required to use them.</p>
+      <dl class="principles-list">
+        {principles.map(([name, detail], index) => <div><dt><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{name}</dt><dd>{detail}</dd></div>)}
+      </dl>
+      <h2>Privacy limits the exchange</h2>
+      <p>Media history can expose habits and routines. A format cannot enforce consent by naming a visibility field. Implementations remain responsible for authorization, retention, deletion and preventing one person's history from reaching another account.</p>
+      <h2>What this draft does not define</h2>
+      <p>It does not define authentication, a universal completion threshold, one provider identity, a transport protocol or conformance. Those subjects require governance, a processing model, security analysis, fixtures and independent implementation before stronger claims are appropriate.</p>
+      <p class="contribution-note">Add a documented failure case or comment through <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">Scrobble.dev</a>. Reproduce implementation behaviour through <a href="https://github.com/dannyvfilms/Floppy/issues">Floppy issues</a>.</p>
+    </div>
+  </article>
 </BaseLayout>

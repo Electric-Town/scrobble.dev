@@ -2,7 +2,7 @@
 
 ## Mission
 
-Maintain scrobble.dev as an authoritative, neutral, implementation-aware knowledge base for scrobbling and portable media tracking. The site must remain useful to people who never use Floppy while providing clear contribution paths into Floppy and FloppyDesktop.
+Maintain scrobble.dev as a trusted, neutral, implementation-aware knowledge base for scrobbling and portable media tracking. The site must remain useful to people who never use Floppy while providing clear contribution paths into Floppy and FloppyDesktop.
 
 ## Source-of-truth hierarchy
 
@@ -47,7 +47,6 @@ Concept documents use Markdown with YAML frontmatter and a non-empty `type`. Pre
 - `description`
 - `resource`
 - `tags`
-- `timestamp`
 - `status`
 - `stale_after`
 - `generated`
@@ -55,6 +54,8 @@ Concept documents use Markdown with YAML frontmatter and a non-empty `type`. Pre
 - `sources`
 
 The root `index.md` may declare `okf_version: "0.2"`. Reserved `index.md` and `log.md` files follow OKF structure and are not ordinary concepts. Use `draft`, `stable` or `deprecated` when `status` is present.
+
+The validator pins the official v0.2 specification revision in `config/okf-v0.2.json`. A release must pass `npm run validate:okf`; a regular expression that only finds frontmatter is not sufficient evidence of conformance.
 
 Relationships should use normal Markdown links. For externally sourced claims, include source/provenance information when adding or materially changing a concept.
 
@@ -122,7 +123,13 @@ Write like technical documentation maintained by practitioners.
 
 ## Floppy relationship
 
-Floppy is a reference implementation and primary contribution funnel, not the definition of scrobbling. Link implementation work to `https://github.com/dannyvfilms/Floppy/issues`. FloppyDesktop work belongs at `https://github.com/Electric-Town/FloppyDesktop`.
+Floppy is software used to test the guidance and a primary contribution route, not the definition of scrobbling. Link implementation work to `https://github.com/dannyvfilms/Floppy/issues`. FloppyDesktop work belongs at `https://github.com/Electric-Town/FloppyDesktop`.
+
+Keep Sponsor Danny beside Floppy repository and contribution links. Keep Sponsor Ryan under Scrobble.dev maintenance. Do not group Danny under the site's maintainer-support label.
+
+## Public scope
+
+The adjacent identifier-resolution initiative described in private research is out of scope for the public site. Do not teach it, list its repositories or repeat its project vocabulary in public output. `npm run validate:public` scans generated HTML, metadata, JSON-LD, JSON, CSV, Markdown and agent files before release.
 
 ## Validation before PR
 

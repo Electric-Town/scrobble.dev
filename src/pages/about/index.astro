@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'About Scrobble.dev — editorial method and governance';
+const description = 'How Scrobble.dev defines its scope, classifies claims, checks current project facts, labels draft proposals, and accepts corrections.';
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Scrobble.dev', item: 'https://scrobble.dev/' },
+    { '@type': 'ListItem', position: 2, name: 'About', item: 'https://scrobble.dev/about/' }
+  ]
+}];
+---
+<BaseLayout {title} {description} type="AboutPage" schema={schema} markdown="/knowledge/method.md">
+  <article class="shell section article h-entry">
+    <div class="article-body e-content">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Field guide</a><span aria-hidden="true">/</span><span aria-current="page">About</span></nav>
+      <p class="kicker">About Scrobble.dev</p>
+      <h1 class="p-name">A maintained reference for scrobbling and media activity.</h1>
+      <p class="standfirst e-summary">Scrobble.dev explains how media activity becomes progress and history, documents implementation choices, and compares projects without declaring a winner.</p>
+
+      <h2 id="scope">What the site covers</h2>
+      <p>Scrobble.dev covers activity, now playing, progress, completion, durable history, retries, correction, deletion, synchronization, portability, privacy and project capabilities. It treats Floppy and FloppyDesktop as implementations that can exercise these ideas, not as the definition of scrobbling.</p>
+      <p>The site does not rank projects or require another project to depend on Scrobble.dev at runtime.</p>
+
+      <h2 id="method">How claims are described</h2>
+      <p>Each claim should make its basis clear. Project documentation is attributed to the project. Reproduced behaviour identifies the version and method. Historical material is labelled historical. Editorial conclusions are labelled as interpretation. Scrobble.dev proposals name their draft and version.</p>
+      <div class="catalogue-scroll" role="region" aria-label="Scrobble.dev claim classes" tabindex="0">
+        <table>
+          <thead><tr><th scope="col">Claim class</th><th scope="col">Meaning</th><th scope="col">Expected wording</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Official requirement</th><td>An upstream specification or API states a requirement.</td><td>“The API requires…”</td></tr>
+            <tr><th scope="row">Project statement</th><td>A project's current documentation states a capability.</td><td>“The project documentation states…”</td></tr>
+            <tr><th scope="row">Observed behaviour</th><td>A result was reproduced against a named version.</td><td>“A test against version X produced…”</td></tr>
+            <tr><th scope="row">Historical record</th><td>An archived or retired source describes earlier behaviour.</td><td>“Historically…”</td></tr>
+            <tr><th scope="row">Interpretation</th><td>The conclusion follows from cited evidence.</td><td>“This suggests…”</td></tr>
+            <tr><th scope="row">Proposal</th><td>A versioned Scrobble.dev draft recommends behaviour.</td><td>“The draft profile proposes…”</td></tr>
+            <tr><th scope="row">Unknown</th><td>No adequate source was verified.</td><td>“Not verified as of DATE.”</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The full method is available as <a href="/knowledge/method.md">plain Markdown</a>.</p>
+
+      <h2 id="freshness">How current facts are checked</h2>
+      <p>Current project facts should include a primary source and a verification date. A stale date triggers review; it does not silently turn a fact into false. Where documentation does not establish a capability, the catalogue records that the claim is unknown or not verified.</p>
+      <p>Descriptions state what a source establishes and avoid inferring capability from a logo, dependency, issue title or marketing phrase.</p>
+
+      <h2 id="governance">How changes are governed</h2>
+      <p>Factual corrections can use a focused issue or pull request. A material definition change needs its motivation, evidence and compatibility effect. A draft-profile change needs an example or conformance case and must state whether it clarifies, extends or breaks the previous version.</p>
+      <p>Open questions may remain open. Finishing a page is not a reason to invent consensus. The <a href="/knowledge/governance.md">governance note</a> records the review path.</p>
+
+      <h2 id="maintainers">Who maintains the work</h2>
+      <p>The public <a href="https://github.com/Electric-Town/scrobble.dev">Scrobble.dev repository</a> records contributions and review history. Project facts can be corrected through its issue tracker.</p>
+      <p>Application work belongs in the <a href="https://github.com/dannyvfilms/Floppy/issues">Floppy</a> or <a href="https://github.com/Electric-Town/FloppyDesktop/issues">FloppyDesktop</a> issue tracker. Those contribution routes remain separate from editorial corrections.</p>
+      <p>Floppy work can be supported through <a href="https://github.com/sponsors/dannyvfilms">Danny's GitHub Sponsors page</a>. Scrobble.dev maintenance can be supported through <a href="https://github.com/sponsors/ryan-winkler">Ryan's GitHub Sponsors page</a>.</p>
+    </div>
+    <aside class="toc" aria-label="On this page">
+      <strong>On this page</strong>
+      <ul>
+        <li><a href="#scope">Scope</a></li>
+        <li><a href="#method">Claim method</a></li>
+        <li><a href="#freshness">Freshness</a></li>
+        <li><a href="#governance">Governance</a></li>
+        <li><a href="#maintainers">Maintainers</a></li>
+      </ul>
+    </aside>
+  </article>
+</BaseLayout>

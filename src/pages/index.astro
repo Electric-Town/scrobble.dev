@@ -2,22 +2,18 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { PROJECTS } from '../data/projects.mjs';
 
-const measures = [
-  ['Film and television', 'playback position, completion, rewatch', 'title, release, season, episode, numbering scheme'],
-  ['Books, manga and comics', 'page, chapter, volume, finish, reread', 'work, edition, volume and chapter'],
-  ['Music and podcasts', 'playback time, duration, repeat', 'recording or episode, release, artist or feed'],
-  ['Video and board games', 'session, duration, turn, completion', 'game, edition, platform and play']
+const lifecycle = [
+  ['Now playing', 'A temporary statement about what a player is handling now.', 'May disappear without entering history.'],
+  ['Progress', 'A position such as seconds, pages, chapters or turns.', 'Can change many times during one session.'],
+  ['Scrobble', 'A durable, time-stamped record of media activity.', 'Belongs in history and must support correction.'],
+  ['Completion', 'A decision that a work or defined unit is finished.', 'Uses a policy appropriate to the medium and source.']
 ];
 
-const principles = [
-  ['01', 'Do not merge different concepts', 'An event is not a rating, a list entry, a collection item or a derived statistic. A format can connect them without pretending they are the same thing.'],
-  ['02', 'Keep the identity that was known', 'Store local identity beside provider IDs. Editions, seasons, episodes, tracks, chapters, platforms and mappings can change the meaning of a record.'],
-  ['03', 'Name each timestamp', 'Playback start, completion, diary date, import time and receipt time answer different questions. The field name should say which one it holds.'],
-  ['04', "Measure progress in the medium's own units", 'Milliseconds suit audio. Pages and chapters suit reading. Sessions and turns may suit games. Percent is an optional view, not the source of truth.'],
-  ['05', 'Record provenance', 'Manual entries, imports, player telemetry, webhooks, inferences and synchronized copies do not carry the same evidence. Preserve where each event came from.'],
-  ['06', 'Make a retry harmless', 'A receiver may see the same logical event more than once. Stable event identity prevents an ordinary retry from manufacturing extra history.'],
-  ['07', 'Allow correction and deletion', 'People misidentify media, import duplicates and enter the wrong time. A history must support amendment, deduplication and removal.'],
-  ['08', 'Design the exit before the lock-in', 'A person should be able to inspect a documented export and move it elsewhere. Migration is part of correctness, not a later courtesy.']
+const mediaGroups = [
+  ['Listening', 'Music and podcasts use time, duration, recordings, releases, episodes and feeds.'],
+  ['Watching', 'Film, television and anime need work, release, season, episode and order context.'],
+  ['Reading', 'Books, manga and comics use editions, volumes, chapters, issues and pages.'],
+  ['Playing', 'Video and board games may use sessions, platforms, turns, scores and completion states.']
 ];
 
 const schema = [{
@@ -28,133 +24,85 @@ const schema = [{
   url: 'https://scrobble.dev/#definition',
   inLanguage: 'en',
   hasDefinedTerm: [
-    { '@type': 'DefinedTerm', name: 'Scrobble', description: 'A time-stamped record that a person played, watched, read or listened to a specific piece of media.', url: 'https://scrobble.dev/#definition' },
-    { '@type': 'DefinedTerm', name: 'Scrobble event', description: 'A media-activity record with identity, occurrence time, progress and provenance.', url: 'https://scrobble.dev/#event-model' }
+    { '@type': 'DefinedTerm', name: 'Scrobble', description: 'A durable, time-stamped record that someone listened to, watched, read or played a specific piece of media.', url: 'https://scrobble.dev/#definition' },
+    { '@type': 'DefinedTerm', name: 'Now playing', description: 'A temporary statement about media being handled by a player now.', url: 'https://scrobble.dev/#lifecycle' }
   ]
 }];
 ---
-<BaseLayout schema={schema} markdown="/knowledge/concepts/scrobbling.md">
-  <section class="shell home-hero" aria-labelledby="hero-title">
+<BaseLayout schema={schema} markdown="/knowledge/concepts/scrobbling.md" modified="2026-08-11" status="stable">
+  <section class="shell home-hero" id="definition" aria-labelledby="hero-title">
     <div>
-      <p class="kicker">Scrobbling, explained</p>
-      <h1 id="hero-title">Scrobbling records what was played, watched or read.</h1>
-      <p class="standfirst">It began with music players sending listening data to Audioscrobbler. The same event pattern now appears in trackers for film, television, books, podcasts and games.</p>
+      <p class="kicker">Scrobbling, in plain language</p>
+      <h1 id="hero-title">A scrobble is a durable record of something watched, read, listened to or played.</h1>
+      <p class="standfirst">It identifies the media and records when the activity happened. It may also preserve progress, completion and how the event was observed.</p>
+      <p>For example, a music player can record that a track was played at 19:42. A reading tracker can record that a chapter was finished. Those records can form a history that survives a change of app.</p>
       <div class="actions">
-        <a class="button primary" href="#definition">Read the definition</a>
-        <a class="button" href="/standard/">Review the draft rules</a>
+        <a class="button primary" href="/learn/">I use trackers</a>
+        <a class="button" href="/build/">I build trackers</a>
       </div>
     </div>
     <aside class="hero-brief" aria-labelledby="brief-title">
-      <p class="brief-label" id="brief-title">One event answers</p>
+      <p class="brief-label" id="brief-title">A useful record answers</p>
       <dl>
-        <div><dt>What</dt><dd>the media identity</dd></div>
-        <div><dt>When</dt><dd>the activity time</dd></div>
-        <div><dt>How far</dt><dd>the medium's own progress</dd></div>
-        <div><dt>How known</dt><dd>manual, player, import or sync</dd></div>
+        <div><dt>What</dt><dd>the media that was consumed</dd></div>
+        <div><dt>When</dt><dd>the time represented by the event</dd></div>
+        <div><dt>How far</dt><dd>the medium's own progress, when known</dd></div>
+        <div><dt>How known</dt><dd>manual entry, player, import or sync</dd></div>
       </dl>
     </aside>
   </section>
 
-  <article class="definition-band h-entry" id="definition" aria-labelledby="definition-title">
+  <section class="definition-band" aria-labelledby="paths-title">
     <div class="shell article-grid">
-      <p class="section-label">Definition</p>
-      <div class="e-content">
-        <h2 class="p-name" id="definition-title">A scrobble is a time-stamped record of media activity.</h2>
-        <p>The record identifies a piece of media and says that someone played, watched, read or listened to it. It may also carry progress, duration, completion state and the source that observed the activity.</p>
-        <p>A watchlist records intent. A collection records ownership. A rating records opinion. A scrobble records an event. Trackers can connect those concepts without collapsing them into one field.</p>
-        <a class="source-link u-url" href="/knowledge/concepts/scrobbling.md" type="text/markdown">Read the plain Markdown definition</a>
+      <p class="section-label">Choose a path</p>
+      <div>
+        <h2 id="paths-title">Learn the record, or build the exchange.</h2>
+        <div class="path-list">
+          <article><h3>Using trackers</h3><p>Understand histories, privacy, corrections, exports and the differences between projects.</p><a href="/learn/">Start with the field guide</a></article>
+          <article><h3>Building trackers</h3><p>Keep event time, identity, native progress and provenance clear enough to retry, export and correct.</p><a href="/build/">Read the implementation guide</a></article>
+        </div>
       </div>
-    </div>
-  </article>
-
-  <section class="shell section history" id="history" aria-labelledby="history-title">
-    <div class="section-intro">
-      <p class="section-label">History</p>
-      <h2 id="history-title">The name came from music.</h2>
-    </div>
-    <div class="prose">
-      <p>Last.fm traces Audioscrobbler to 2002. Player-side software sent a listening event to the service, turning playback into a history that did not need a manual diary.</p>
-      <p>Its retired submissions protocol treated “now playing” and historical submission as separate messages. One could describe the current track; the other could count toward statistics. That boundary is still useful when a tracker distinguishes temporary state from a durable event.</p>
-      <p>Later trackers carried the pattern beyond music. The verb stayed; the details changed. A book has pages and editions. A television series has seasons, episodes and competing numbering schemes. A game may be better described by a session than by a percentage.</p>
-      <p class="source-note">Sources: <a href="https://blog.last.fm/2008/05/21/building-the-next-lastfm">Last.fm, “Building the Next Last.fm”</a>, the <a href="https://www.last.fm/api/submissions">retired submissions protocol</a> and the <a href="https://www.last.fm/api/scrobbling">current scrobbling API</a>.</p>
     </div>
   </section>
 
-  <section class="measure-band" id="media" aria-labelledby="media-title">
+  <section class="shell section" id="lifecycle" aria-labelledby="lifecycle-title">
+    <div class="section-intro">
+      <p class="section-label">The activity lifecycle</p>
+      <h2 id="lifecycle-title">Playing now, progress, history and completion are different records.</h2>
+      <p>A tracker can connect them without treating a temporary player state as durable history.</p>
+    </div>
+    <div class="measure-table" role="table" aria-label="Media activity lifecycle">
+      <div class="measure-row measure-head" role="row"><span role="columnheader">Record</span><span role="columnheader">Meaning</span><span role="columnheader">Boundary</span></div>
+      {lifecycle.map(([record, meaning, boundary]) => <div class="measure-row" role="row"><strong role="cell">{record}</strong><span role="cell">{meaning}</span><span role="cell">{boundary}</span></div>)}
+    </div>
+    <p><a href="/learn/lifecycle/">Read the lifecycle guide</a>.</p>
+  </section>
+
+  <section class="measure-band" aria-labelledby="media-title">
     <div class="shell section">
-      <div class="section-intro split-intro">
-        <div><p class="section-label">Across media</p><h2 id="media-title">The event stays small. The units do not.</h2></div>
-        <p>A common exchange layer should retain the measurements that make sense for each medium.</p>
+      <div class="section-intro">
+        <p class="section-label">Across media</p>
+        <h2 id="media-title">Progress keeps the unit that the medium actually uses.</h2>
+        <p>A percentage can be a useful display, but it should not replace the pages, seconds, chapters, episodes, sessions or turns that produced it.</p>
       </div>
-      <div class="measure-table" role="table" aria-label="Scrobbling measures by medium">
-        <div class="measure-row measure-head" role="row"><span role="columnheader">Medium</span><span role="columnheader">Native progress</span><span role="columnheader">Identity detail</span></div>
-        {measures.map(([medium, progress, identity]) => <div class="measure-row" role="row"><strong role="cell">{medium}</strong><span role="cell">{progress}</span><span role="cell">{identity}</span></div>)}
-      </div>
-    </div>
-  </section>
-
-  <section class="shell section event-model" id="event-model" aria-labelledby="event-title">
-    <div class="section-intro">
-      <p class="section-label">Event model</p>
-      <h2 id="event-title">Enough context to survive a move.</h2>
-      <p>This example is descriptive, not a finished standard. A tracker may add fields, but these five make an event inspectable and safer to synchronize.</p>
-    </div>
-    <div>
-      <pre aria-label="Example scrobble event"><code>{`{
-  "event_id": "01J…",
-  "media": {
-    "type": "episode",
-    "title": "Example title"
-  },
-  "occurred_at": "2026-08-11T20:04:00Z",
-  "progress": { "seconds": 1462 },
-  "provenance": "player"
-}`}</code></pre>
-      <dl class="field-notes">
-        <div><dt>event_id</dt><dd>Lets a retry refer to the same logical event.</dd></div>
-        <div><dt>media</dt><dd>Holds the work, edition, episode, track or play that was known.</dd></div>
-        <div><dt>occurred_at</dt><dd>Names the time represented by the record.</dd></div>
-        <div><dt>progress</dt><dd>Keeps a native measure rather than inventing a universal percentage.</dd></div>
-        <div><dt>provenance</dt><dd>States whether the event came from a person, player, import or sync.</dd></div>
+      <dl class="media-groups">
+        {mediaGroups.map(([group, detail]) => <div><dt>{group}</dt><dd>{detail}</dd></div>)}
       </dl>
-    </div>
-  </section>
-
-  <section class="principles-band" id="principles" aria-labelledby="principles-title">
-    <div class="shell section">
-      <div class="section-intro split-intro">
-        <div><p class="section-label">Working draft 0.1</p><h2 id="principles-title">Eight rules for exchanging scrobbles</h2></div>
-        <p>These are proposals. Implementations may adopt them, challenge them or map to them. A claim of compatibility should name the version and document the differences.</p>
-      </div>
-      <ol class="principles-list">
-        {principles.map(([number, heading, text]) => <li><span class="principle-number" aria-hidden="true">{number}</span><div><h3>{heading}</h3><p>{text}</p></div></li>)}
-      </ol>
-      <aside class="privacy-note"><strong>Privacy sets the limit.</strong><p>Media history can expose habits and routines. Do not collect device, location, account or behavioural detail unless the requested tracking function needs it.</p></aside>
+      <p>Scrobble.dev's <a href="/standard/">draft principles</a> propose clear timestamps, source-local identity, native progress, provenance, safe retry, correction and export. They are published for testing and comment, not as an adopted industry standard.</p>
     </div>
   </section>
 
   <section class="shell section" id="projects" aria-labelledby="projects-title">
-    <div class="section-intro"><p class="section-label">Reference implementations</p><h2 id="projects-title">The draft meets real data in Floppy.</h2><p>Floppy and FloppyDesktop expose cross-media edge cases. They are places to test the rules, not definitions of scrobbling.</p></div>
-    <div class="project-list">
-      <article><p class="project-type">Self-hosted web application</p><h3>Floppy</h3><p>One library and history for movies, television, anime, manga, books, comics, video games, board games, music and podcasts. It includes imports, integrations, statistics, lists, collections, an API and export.</p><div class="project-links"><a href="https://github.com/dannyvfilms/Floppy">Open the repository</a><a href="https://github.com/dannyvfilms/Floppy/issues">Browse Floppy issues</a></div></article>
-      <article><p class="project-type">Native desktop application</p><h3>FloppyDesktop</h3><p>A desktop application for the same self-hosted tracking system, packaged under Electric Town's application identity.</p><div class="project-links"><a href="https://github.com/Electric-Town/FloppyDesktop">Open the repository</a><a href="https://github.com/Electric-Town/FloppyDesktop/issues">Browse desktop issues</a></div></article>
+    <div class="section-intro">
+      <p class="section-label">Projects and participation</p>
+      <h2 id="projects-title">Compare the field, then improve the record.</h2>
+      <p>The catalogue describes {PROJECTS.length} services, trackers, clients and connectors from their own documentation or repositories. It does not rank them.</p>
     </div>
-    <a class="button catalogue-link" href="/projects/">Compare {PROJECTS.length} scrobbling projects</a>
-  </section>
-
-  <section class="knowledge-band" aria-labelledby="knowledge-title">
-    <div class="shell knowledge-layout">
-      <div><p class="section-label">Knowledge files</p><h2 id="knowledge-title">The page is not the only copy.</h2></div>
-      <div><p>Definitions and draft rules are also published as plain Markdown with stable URLs. That makes them easier to quote, review, map and carry into another tool.</p><nav class="file-links" aria-label="Machine-readable knowledge files"><a href="/knowledge/concepts/scrobbling.md">Scrobbling definition (.md)</a><a href="/knowledge/projects.md">Project catalogue (.md)</a><a href="/llms.txt">Site index (llms.txt)</a><a href="https://github.com/Electric-Town/scrobble.dev">Website source</a></nav></div>
+    <div class="project-actions">
+      <a class="button primary" href="/projects/">Open the project catalogue</a>
+      <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">Correct the field guide</a>
+      <a href="https://github.com/dannyvfilms/Floppy/issues">Contribute a tracking case to Floppy</a>
     </div>
-  </section>
-
-  <section class="shell section" id="contribute" aria-labelledby="contribute-title">
-    <div class="section-intro"><p class="section-label">Contribute</p><h2 id="contribute-title">Contribute to the guide or the software.</h2><p>The field guide needs sourced definitions and project evidence. Floppy needs reproducible tracking failures, fixtures and code.</p></div>
-    <div class="contribution-lanes">
-      <article><p class="project-type">Scrobble.dev</p><h3>Improve the shared knowledge</h3><p>Add a missing project, correct a definition or document a media edge case. Include a first-party source and keep the change to one claim or topic.</p><a class="button primary" href="https://github.com/Electric-Town/scrobble.dev/issues/new">Suggest a site change</a></article>
-      <article><p class="project-type">Floppy</p><h3>Fix the software record</h3><p>Name the media, identifiers, observed event and the point where history stopped matching what happened.</p><a class="button primary" href="https://github.com/dannyvfilms/Floppy/issues">Browse Floppy issues</a></article>
-    </div>
-    <p class="reference-note">See the <a href="/projects/#contribute">catalogue contribution checklist</a> for the source, scope and test evidence expected in each route.</p>
+    <p class="reference-note">Floppy and FloppyDesktop are software projects used to test the guidance. They remain available from the footer without defining scrobbling for the rest of the field.</p>
   </section>
 </BaseLayout>

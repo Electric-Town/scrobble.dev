@@ -1,42 +1,62 @@
 # Scrobble.dev: expanded context
 
 Canonical site: https://scrobble.dev/
+Repository: https://github.com/Electric-Town/scrobble.dev
 Language: en
-Status: discussion draft 0.1
 Last revised: 2026-08-11
+
+Scrobble.dev is a maintained field guide to scrobbling, portable media history and tracker interoperability. Draft profiles carry their own status and version; the site as a whole is not an adopted industry standard.
 
 ## Definition
 
-A scrobble is a time-stamped record that a person played, watched, read or listened to a specific piece of media. The record may also carry native progress, duration, completion state and provenance.
+A scrobble is a durable, time-stamped record that a person listened to, watched, read or played a specific piece of media. The record may also preserve native progress, completion state and provenance.
 
-A watchlist records intent. A collection records ownership or availability. A rating records opinion. A scrobble records an event. A tracker can connect those concepts without treating them as the same field.
+Now playing is temporary activity. Progress is resumable state. History records an occurrence. Completion is a policy decision or explicit result. Synchronization copies or reconciles records. These concepts can be related without being treated as the same field.
+
+## Evidence method
+
+Scrobble.dev distinguishes official requirements, current project statements, historical records, observed behaviour, editorial inference, draft proposals and unknown facts. Current project claims should identify a primary source and the date checked. Unknown is not treated as false.
+
+- Editorial method: https://scrobble.dev/about/
+- Portable method file: https://scrobble.dev/knowledge/method.md
+- Governance: https://scrobble.dev/knowledge/governance.md
 
 ## Portable event core
 
 1. Stable event identity makes an ordinary retry harmless.
-2. Media identity retains the work, edition, season, episode, track, chapter, platform or play that was known.
-3. Named timestamps distinguish playback start, completion, diary date, import time and receipt time.
-4. Native progress retains seconds, pages, chapters, sessions or turns instead of forcing every medium into a percentage.
-5. Provenance distinguishes manual entry, player telemetry, webhook, import, inference and synchronized copy.
-6. Correction and deletion allow a person to repair misidentified media and duplicated imports.
-7. A documented export allows the person to inspect and move their history.
+2. Source-local media identity preserves what the sender knew about the subject.
+3. Named timestamps distinguish event time from recorded or received time.
+4. Native progress retains seconds, pages, chapters, sessions or turns before deriving a percentage.
+5. Provenance distinguishes playback, manual entry, import, inference and synchronized copies.
+6. Correction and deletion allow a person to repair misidentified or duplicated history.
+7. A documented export allows a person to inspect and move their history.
 
-## Project coverage
+## Project directory
 
-The catalogue at https://scrobble.dev/projects/ contains 17 source-checked entries. It includes common services such as Trakt, Simkl, Letterboxd and WeTrakr alongside open-source trackers, clients and connectors. Books, comics, podcasts and games currently rely on Floppy and FloppyDesktop in this catalogue. A short category is documented as a coverage gap, not as evidence that no other project exists.
+The project catalogue describes services, trackers, clients and connectors by media, category, capture method, source state, checked date and contribution route. Inclusion is not an endorsement, and the catalogue does not rank projects.
 
-The portable catalogue is available as OKF v0.2 Markdown at https://scrobble.dev/knowledge/projects.md, JSON at https://scrobble.dev/projects.json and CSV at https://scrobble.dev/projects.csv. The catalogue is CC0; linked projects and upstream databases retain their own terms.
+- HTML: https://scrobble.dev/projects/
+- JSON: https://scrobble.dev/projects.json
+- CSV: https://scrobble.dev/projects.csv
+- OKF v0.2 Markdown: https://scrobble.dev/knowledge/projects.md
+- OKF project: https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf
+- Pinned OKF v0.2 specification: https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md
+
+Scrobble.dev releases its catalogue under CC0. Linked projects, repositories and upstream data retain their own terms.
 
 ## Frequently asked questions
 
-The FAQ at https://scrobble.dev/faq/ explains why anime has a separate catalogue facet, how common trackers differ, why mapping systems proliferate, what selected Nuvio Mobile issues do and do not establish, and why commercial reuse needs an explicit data licence and provenance.
+The FAQ explains the anime catalogue facet, differences between common trackers, the minimum context a portable record should preserve, catalogue licensing and contribution routes.
 
-## Contribution boundaries
+- FAQ: https://scrobble.dev/faq/
+- Portable FAQ file: https://scrobble.dev/knowledge/faq.md
 
-Scrobble.dev accepts source-backed definitions, catalogue corrections and documented tracking edge cases. Changes should be plain Markdown where possible, use stable links, cover one claim or topic and separate documented behaviour from interpretation.
+## Contribution
 
-Floppy accepts reproducible tracking failures, anonymized examples, provider identifiers, numbering schemes, fixtures, round-trip tests and code. Start at https://github.com/dannyvfilms/Floppy/issues.
+Scrobble.dev accepts factual corrections, project updates and documented tracking edge cases. Contributions should identify the claim, a primary source and the date checked.
 
-## Source policy
+- Scrobble.dev: https://github.com/Electric-Town/scrobble.dev
+- Floppy issues: https://github.com/dannyvfilms/Floppy/issues
+- FloppyDesktop issues: https://github.com/Electric-Town/FloppyDesktop/issues
 
-Prefer a project's own documentation, repository or protocol. Record the date checked. Do not manufacture consensus, support claims or compatibility. Inclusion in the catalogue is not an endorsement.
+Do not infer consensus, compatibility or current project capability from an uncited summary. Prefer the cited project documentation, repository or protocol.
