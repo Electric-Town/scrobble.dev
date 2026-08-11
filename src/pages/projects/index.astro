@@ -84,13 +84,26 @@ const schema = [
           </details>
           <button class="button reset-filters" id="reset-filters" type="reset">Reset all</button>
         </form>
-        <p class="catalogue-count" id="catalogue-count" aria-live="polite">Showing {PROJECTS.length} of {PROJECTS.length} projects</p>
-        <p class="active-filters" id="active-filters">No filters applied.</p>
-        <p class="catalogue-data">Download <a href="/projects.json">JSON</a>, <a href="/projects.csv">CSV</a> or the <a href="/knowledge/projects.md">OKF v0.2 Markdown catalogue</a>. Read the <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf">OKF project</a> and <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md">pinned v0.2 specification</a>. Catalogue metadata is CC0; linked projects and their data keep their own terms.</p>
-        <p class="catalogue-scroll-hint" id="catalogue-scroll-hint">The table may scroll sideways. Tab to the table, then use horizontal scrolling to compare every column.</p>
+        <div class="catalogue-summary">
+          <div>
+            <p class="catalogue-count" id="catalogue-count" aria-live="polite">Showing {PROJECTS.length} of {PROJECTS.length} projects</p>
+            <p class="active-filters" id="active-filters">No filters applied.</p>
+          </div>
+          <div>
+            <p class="catalogue-data">Download <a href="/projects.json">JSON</a>, <a href="/projects.csv">CSV</a> or the <a href="/knowledge/projects.md">OKF v0.2 Markdown catalogue</a>. Catalogue metadata is CC0; linked projects and their data keep their own terms. Read the <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf">OKF project</a> and <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md">pinned v0.2 specification</a>.</p>
+            <p class="catalogue-scroll-hint" id="catalogue-scroll-hint">Scroll horizontally to compare every column.</p>
+          </div>
+        </div>
         <div class="catalogue-scroll" role="region" aria-label="Scrobbling projects table" aria-describedby="catalogue-scroll-hint" tabindex="0">
           <table>
             <caption class="sr-only">Source-linked scrobbling projects. Use the column buttons to sort.</caption>
+            <colgroup>
+              <col class="project-column" />
+              <col class="media-column" />
+              <col class="category-column" />
+              <col class="capture-column" />
+              <col class="evidence-column" />
+            </colgroup>
             <thead><tr>
               <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="name">Project</button></th>
               <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="media">Media</button></th>
@@ -119,9 +132,11 @@ const schema = [
                   <td>{project.capture}</td>
                   <td>
                     <span>{project.sourceState} · {project.license ?? 'No licence verified'}</span>
-                    <span>Lifecycle: {project.lifecycle} · checked {project.checkedAt}</span>
-                    <a href={project.sources[0].url}>Primary source</a>
-                    <a href={project.contribute} aria-label={`Contribute to ${project.name}`}>Contribute</a>
+                    <span>{project.lifecycle === 'unknown' ? 'Lifecycle not verified' : `Lifecycle: ${project.lifecycle}`} · {project.checkedAt}</span>
+                    <div class="evidence-links">
+                      <a href={project.sources[0].url}>Primary source</a>
+                      <a href={project.contribute} aria-label={`Contribute to ${project.name}`}>Contribute</a>
+                    </div>
                   </td>
                 </tr>
               ))}

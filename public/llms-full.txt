@@ -9,9 +9,9 @@ Scrobble.dev is a maintained field guide to scrobbling, portable media history a
 
 ## Definition
 
-A scrobble is a durable, time-stamped record that a person listened to, watched, read or played a specific piece of media. The record may also preserve native progress, completion state and provenance.
+A scrobble is a durable record of what someone watched, read, heard or played, and when. It may also preserve native progress, completion state and provenance.
 
-Now playing is temporary activity. Progress is resumable state. History records an occurrence. Completion is a policy decision or explicit result. Synchronization copies or reconciles records. These concepts can be related without being treated as the same field.
+The player can say what is happening now. Progress says where to resume. A scrobble says what happened and when. Completion says whether a chosen unit counts as finished. Synchronization moves or reconciles those records. Keeping them separate makes retries and corrections explainable.
 
 ## Evidence method
 

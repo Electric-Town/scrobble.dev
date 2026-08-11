@@ -3,17 +3,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { PROJECTS } from '../data/projects.mjs';
 
 const lifecycle = [
-  ['Now playing', 'A temporary statement about what a player is handling now.', 'May disappear without entering history.'],
-  ['Progress', 'A position such as seconds, pages, chapters or turns.', 'Can change many times during one session.'],
-  ['Scrobble', 'A durable, time-stamped record of media activity.', 'Belongs in history and must support correction.'],
-  ['Completion', 'A decision that a work or defined unit is finished.', 'Uses a policy appropriate to the medium and source.']
+  ['Now playing', 'What the player is handling right now.', 'Temporary; it may never enter history.'],
+  ['Progress', 'Where playback or reading can resume.', 'Changes often during one session.'],
+  ['Scrobble', 'What happened, and when.', 'Durable history; it must be correctable.'],
+  ['Completion', 'Whether a work or chosen unit counts as finished.', 'The policy depends on the medium and source.']
 ];
 
 const mediaGroups = [
-  ['Listening', 'Music and podcasts use time, duration, recordings, releases, episodes and feeds.'],
-  ['Watching', 'Film, television and anime need work, release, season, episode and order context.'],
-  ['Reading', 'Books, manga and comics use editions, volumes, chapters, issues and pages.'],
-  ['Playing', 'Video and board games may use sessions, platforms, turns, scores and completion states.']
+  ['Listening', 'Keep elapsed time, duration, recording, release, episode or feed context.'],
+  ['Watching', 'Keep work, release, season, episode and order context.'],
+  ['Reading', 'Keep edition, volume, chapter, issue or page context.'],
+  ['Playing', 'Keep session, platform, turn, score or completion context when it matters.']
 ];
 
 const schema = [{
@@ -24,7 +24,7 @@ const schema = [{
   url: 'https://scrobble.dev/#definition',
   inLanguage: 'en',
   hasDefinedTerm: [
-    { '@type': 'DefinedTerm', name: 'Scrobble', description: 'A durable, time-stamped record that someone listened to, watched, read or played a specific piece of media.', url: 'https://scrobble.dev/#definition' },
+    { '@type': 'DefinedTerm', name: 'Scrobble', description: 'A durable record of what someone watched, read, heard or played, and when.', url: 'https://scrobble.dev/#definition' },
     { '@type': 'DefinedTerm', name: 'Now playing', description: 'A temporary statement about media being handled by a player now.', url: 'https://scrobble.dev/#lifecycle' }
   ]
 }];
@@ -33,33 +33,34 @@ const schema = [{
   <section class="shell home-hero" id="definition" aria-labelledby="hero-title">
     <div>
       <p class="kicker">Scrobbling, in plain language</p>
-      <h1 id="hero-title">A scrobble is a durable record of something watched, read, listened to or played.</h1>
-      <p class="standfirst">It identifies the media and records when the activity happened. It may also preserve progress, completion and how the event was observed.</p>
-      <p>For example, a music player can record that a track was played at 19:42. A reading tracker can record that a chapter was finished. Those records can form a history that survives a change of app.</p>
+      <h1 id="hero-title">Your media history should outlast the app that recorded it.</h1>
+      <p class="standfirst">A scrobble is a durable record of what you watched, read, heard or played, and when. Done well, you can inspect and correct the record, then carry it elsewhere.</p>
+      <p>The player knows what is happening now. A useful history remembers what happened then, without losing the original time, progress or source.</p>
       <div class="actions">
-        <a class="button primary" href="/learn/">I use trackers</a>
-        <a class="button" href="/build/">I build trackers</a>
+        <a class="button primary" href="/learn/scrobbling/">Show me how scrobbling works</a>
+        <a class="button" href="/projects/">Compare tracking projects</a>
       </div>
     </div>
     <aside class="hero-brief" aria-labelledby="brief-title">
-      <p class="brief-label" id="brief-title">A useful record answers</p>
+      <p class="brief-label" id="brief-title">A scrobble, caught in the act</p>
       <dl>
-        <div><dt>What</dt><dd>the media that was consumed</dd></div>
-        <div><dt>When</dt><dd>the time represented by the event</dd></div>
-        <div><dt>How far</dt><dd>the medium's own progress, when known</dd></div>
-        <div><dt>How known</dt><dd>manual entry, player, import or sync</dd></div>
+        <div><dt>Moment</dt><dd><time datetime="19:42">19:42</time>, while a track is playing</dd></div>
+        <div><dt>Progress</dt><dd>3:18 of 5:37, kept as time</dd></div>
+        <div><dt>Source</dt><dd>the player that observed it</dd></div>
+        <div><dt>History</dt><dd>one correctable play, even after a retry</dd></div>
       </dl>
     </aside>
   </section>
 
   <section class="definition-band" aria-labelledby="paths-title">
     <div class="shell article-grid">
-      <p class="section-label">Choose a path</p>
+      <p class="section-label">Where the trouble starts</p>
       <div>
-        <h2 id="paths-title">Learn the record, or build the exchange.</h2>
+        <h2 id="paths-title">The playhead moves every second. History has to make sense tomorrow.</h2>
+        <p>A playhead can move every second. History should enter once, and it should still make sense after an import, a correction or a new app. Most readers arrive with one of two questions.</p>
         <div class="path-list">
-          <article><h3>Using trackers</h3><p>Understand histories, privacy, corrections, exports and the differences between projects.</p><a href="/learn/">Start with the field guide</a></article>
-          <article><h3>Building trackers</h3><p>Keep event time, identity, native progress and provenance clear enough to retry, export and correct.</p><a href="/build/">Read the implementation guide</a></article>
+          <article><h3>I use trackers</h3><p>I want a clean history I can understand, correct and move.</p><a href="/learn/">Start with the field guide</a></article>
+          <article><h3>I build trackers</h3><p>I need events that survive retries, synchronization and export without making duplicates.</p><a href="/build/">Read the implementation guide</a></article>
         </div>
       </div>
     </div>
@@ -68,8 +69,8 @@ const schema = [{
   <section class="shell section" id="lifecycle" aria-labelledby="lifecycle-title">
     <div class="section-intro">
       <p class="section-label">The activity lifecycle</p>
-      <h2 id="lifecycle-title">Playing now, progress, history and completion are different records.</h2>
-      <p>A tracker can connect them without treating a temporary player state as durable history.</p>
+      <h2 id="lifecycle-title">One media session can produce four different records.</h2>
+      <p>The distinction matters when a track repeats, an import runs twice or a person fixes the wrong entry.</p>
     </div>
     <div class="measure-table" role="table" aria-label="Media activity lifecycle">
       <div class="measure-row measure-head" role="row"><span role="columnheader">Record</span><span role="columnheader">Meaning</span><span role="columnheader">Boundary</span></div>
@@ -82,27 +83,27 @@ const schema = [{
     <div class="shell section">
       <div class="section-intro">
         <p class="section-label">Across media</p>
-        <h2 id="media-title">Progress keeps the unit that the medium actually uses.</h2>
-        <p>A percentage can be a useful display, but it should not replace the pages, seconds, chapters, episodes, sessions or turns that produced it.</p>
+        <h2 id="media-title">A page is not a second. Keep the unit that explains what happened.</h2>
+        <p>A percentage is handy on a progress bar. The original unit lets a person understand, resume and correct the record.</p>
       </div>
       <dl class="media-groups">
         {mediaGroups.map(([group, detail]) => <div><dt>{group}</dt><dd>{detail}</dd></div>)}
       </dl>
-      <p>Scrobble.dev's <a href="/standard/">draft principles</a> propose clear timestamps, source-local identity, native progress, provenance, safe retry, correction and export. They are published for testing and comment, not as an adopted industry standard.</p>
+      <p>The <a href="/standard/">draft principles</a> carry that rule into timestamps, identity, provenance, retry, correction and export. They are published for testing and comment, not as an adopted industry standard.</p>
     </div>
   </section>
 
   <section class="shell section" id="projects" aria-labelledby="projects-title">
     <div class="section-intro">
-      <p class="section-label">Projects and participation</p>
-      <h2 id="projects-title">Compare the field, then improve the record.</h2>
-      <p>The catalogue describes {PROJECTS.length} services, trackers, clients and connectors from their own documentation or repositories. It does not rank them.</p>
+      <p class="section-label">From diaries to self-hosted trackers</p>
+      <h2 id="projects-title">{PROJECTS.length} projects. Start with the job you need done.</h2>
+      <p>A project might listen to a player, offer a diary, synchronize another service or hold a self-hosted history. The catalogue compares what each source establishes and leaves the ranking to you.</p>
     </div>
     <div class="project-actions">
-      <a class="button primary" href="/projects/">Open the project catalogue</a>
-      <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">Correct the field guide</a>
-      <a href="https://github.com/dannyvfilms/Floppy/issues">Contribute a tracking case to Floppy</a>
+      <a class="button primary" href="/projects/">Compare {PROJECTS.length} projects</a>
+      <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">Add or correct a project</a>
+      <a href="https://github.com/dannyvfilms/Floppy/issues">Take a reproducible case to Floppy</a>
     </div>
-    <p class="reference-note">Floppy and FloppyDesktop are software projects used to test the guidance. They remain available from the footer without defining scrobbling for the rest of the field.</p>
+    <p class="reference-note">Floppy and FloppyDesktop appear as working software in the same catalogue. They also provide a place to turn a reproducible tracking failure into a test or code change.</p>
   </section>
 </BaseLayout>
