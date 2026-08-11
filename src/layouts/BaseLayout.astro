@@ -15,6 +15,7 @@ const {
 
 const canonicalUrl = new URL(canonical, Astro.site ?? 'https://scrobble.dev');
 const pathname = Astro.url.pathname;
+const releaseCommit = process.env.SCROBBLE_RELEASE_SHA || process.env.GITHUB_SHA || 'development';
 const baseSchema = [
   {
     '@context': 'https://schema.org',
@@ -47,6 +48,7 @@ const baseSchema = [
     <meta name="theme-color" content="#f4f0e7" />
     <meta name="description" content={description} />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta name="source-commit" content={releaseCommit} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM index" />

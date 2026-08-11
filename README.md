@@ -43,6 +43,8 @@ The site is static Astro output and is intended to be served at `https://scrobbl
 
 Cloudflare account/project binding and DNS are intentionally not committed as secrets. Configure the custom domain `scrobble.dev` in Cloudflare after the Worker/Pages project exists.
 
+GitHub remains the canonical source. The deployed commit is published at `https://scrobble.dev/release.json`; the scheduled production-drift check and exact release sequence are documented in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
 ## Content rules
 
 - Prefer primary sources and reproducible behavior.

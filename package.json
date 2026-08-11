@@ -8,6 +8,7 @@
     "generate:public": "node scripts/generate-public.mjs",
     "prebuild": "npm run generate:public",
     "build": "astro check && astro build",
+    "postbuild": "node scripts/build-sites.mjs",
     "preview": "astro preview",
     "check": "astro check",
     "validate:okf": "node scripts/validate-okf.mjs",
