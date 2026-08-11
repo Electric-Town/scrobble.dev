@@ -1,6 +1,6 @@
 # scrobble.dev
 
-Scrobble.dev is an open knowledge site for scrobbling, media tracking, interoperability, and portable media history. It explains the domain independently of any single product while using [Floppy](https://github.com/dannyvfilms/Floppy) and [FloppyDesktop](https://github.com/Electric-Town/FloppyDesktop) as reference implementations and contribution paths.
+Scrobble.dev is an open knowledge site for scrobbling, media tracking, interoperability, and portable media history. It explains the domain independently of any single product while using [Floppy](https://github.com/dannyvfilms/Floppy) and [FloppyDesktop](https://github.com/Electric-Town/FloppyDesktop) to test the guidance and provide contribution paths.
 
 ## Goals
 
@@ -71,7 +71,7 @@ Pages include canonical metadata and JSON-LD. The project uses specific Schema.o
 
 ## Open Knowledge Format
 
-`public/knowledge/` conforms to [Open Knowledge Format v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf): Markdown concepts, YAML frontmatter, stable paths, ordinary links, and version-controlled provenance. `index.md` declares the bundle version. Every other Markdown concept has a non-empty `type`.
+`public/knowledge/` conforms to [Open Knowledge Format v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf): Markdown concepts, YAML frontmatter, stable paths, ordinary links, and version-controlled provenance. CI validates the bundle against the [pinned v0.2 specification](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md). `index.md` declares the bundle version. Every other non-reserved Markdown concept has a non-empty `type`.
 
 ## Contributing
 
@@ -79,7 +79,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md). For product implementation work, start
 
 The catalogue at `/projects/` accepts corrections supported by a first-party project page or repository. The visible table, JSON, CSV, OKF concept and Dataset JSON-LD all derive from the same project records.
 
-## Support maintainers
+## Support the work
 
-- [Sponsor Danny](https://github.com/sponsors/dannyvfilms)
-- [Sponsor Ryan](https://github.com/sponsors/ryan-winkler)
+- [Sponsor Danny's Floppy work](https://github.com/sponsors/dannyvfilms)
+- [Sponsor Ryan's Scrobble.dev maintenance](https://github.com/sponsors/ryan-winkler)

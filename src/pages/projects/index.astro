@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { MEDIA, PROJECTS, ROLES, SOURCE_OPTIONS } from '../../data/projects.mjs';
+import { CATALOGUE_CHECKED_AT, CATEGORIES, LICENSE_STATES, MEDIA, PROJECTS, SOURCE_STATES } from '../../data/projects.mjs';
 
 const title = 'Scrobbling project catalogue — Scrobble.dev';
-const description = 'A source-checked catalogue of scrobbling services, trackers, clients and connectors, filterable by media type and project role.';
+const description = 'A source-linked catalogue of scrobbling services, trackers, clients and connectors, filterable by media type and project category.';
 const dataset = {
   '@context': 'https://schema.org',
   '@type': 'Dataset',
@@ -11,8 +11,8 @@ const dataset = {
   name: 'Scrobbling project catalogue',
   description,
   url: 'https://scrobble.dev/projects/',
-  version: '0.2',
-  dateModified: '2026-08-11',
+  version: '0.3',
+  dateModified: CATALOGUE_CHECKED_AT,
   license: 'https://creativecommons.org/publicdomain/zero/1.0/',
   isAccessibleForFree: true,
   keywords: ['scrobbling', 'media tracking', 'watch history', 'listening history', 'open source'],
@@ -24,6 +24,7 @@ const dataset = {
   ]
 };
 const itemList = {
+  '@context': 'https://schema.org',
   '@type': 'ItemList',
   '@id': 'https://scrobble.dev/projects/#catalogue',
   name: 'Scrobbling project catalogue',
@@ -34,10 +35,11 @@ const itemList = {
     position: index + 1,
     item: {
       '@type': 'SoftwareApplication',
+      identifier: project.id,
       name: project.name,
       description: project.summary,
       url: project.url,
-      applicationCategory: project.role,
+      applicationCategory: project.category,
       ...(project.repository ? { codeRepository: project.repository } : {}),
       ...(project.license ? { license: project.license } : {})
     }
@@ -45,7 +47,7 @@ const itemList = {
 };
 const schema = [
   dataset,
-  { '@context': 'https://schema.org', ...itemList },
+  itemList,
   {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -56,104 +58,178 @@ const schema = [
   }
 ];
 ---
-<BaseLayout {title} {description} type="CollectionPage" schema={schema} markdown="/knowledge/projects.md">
+<BaseLayout {title} {description} type="CollectionPage" schema={schema} markdown="/knowledge/projects.md" modified={CATALOGUE_CHECKED_AT} status="stable">
   <article class="shell catalogue-hero h-entry">
-    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Field guide</a><span aria-hidden="true">/</span><span aria-current="page">Project catalogue</span></nav>
-    <p class="kicker">Community index</p>
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Field guide</a><span aria-hidden="true">/</span><span aria-current="page">Projects</span></nav>
+    <p class="kicker">Project catalogue</p>
     <h1 class="p-name">Scrobbling projects, compared by what they record.</h1>
-    <p class="standfirst e-summary">This table covers active services, trackers, clients and connectors with a first-party source. It records what each project says it does; inclusion is not an endorsement.</p>
-    <p class="catalogue-method">Checked 11 August 2026. Filter by medium, role or source availability. A project can appear under more than one medium.</p>
+    <p class="standfirst e-summary">This catalogue records what each project's own documentation or repository described when checked. Inclusion is not an endorsement.</p>
+    <p class="catalogue-method">Catalogue checked {CATALOGUE_CHECKED_AT}. An unknown lifecycle means the checked source did not establish whether the project is active or archived.</p>
   </article>
 
   <section class="catalogue-band" aria-labelledby="catalogue-title">
     <div class="shell section">
-      <div class="catalogue-heading"><p class="section-label">{PROJECTS.length} source-checked entries</p><h2 id="catalogue-title">Find a tracker, client or connector</h2></div>
+      <div class="catalogue-heading"><p class="section-label">{PROJECTS.length} documented projects</p><h2 id="catalogue-title">Find a tracker, client or connector</h2></div>
       <div class="catalogue">
-        <form class="catalogue-filters" aria-label="Filter project catalogue">
-          <label>Media type<select id="media-filter"><option>All</option>{MEDIA.map((item) => <option>{item}</option>)}</select></label>
-          <label>Project role<select id="role-filter"><option>All</option>{ROLES.map((item) => <option>{item}</option>)}</select></label>
-          <label>Source availability<select id="source-filter"><option>All</option>{SOURCE_OPTIONS.map((item) => <option>{item}</option>)}</select></label>
+        <form class="catalogue-filters" id="catalogue-filters" aria-label="Filter project catalogue">
+          <label>Search projects<input id="query-filter" name="q" type="search" autocomplete="off" placeholder="Name, medium or capture method" /></label>
+          <label>Media<select id="media-filter" name="media"><option>All</option>{MEDIA.map((item) => <option>{item}</option>)}</select></label>
+          <label>Project category<select id="category-filter" name="category"><option>All</option>{CATEGORIES.map((item) => <option>{item}</option>)}</select></label>
+          <details class="more-filters">
+            <summary>More filters</summary>
+            <div>
+              <label>Source state<select id="source-filter" name="source"><option>All</option>{SOURCE_STATES.map((item) => <option>{item}</option>)}</select></label>
+              <label>Licence<select id="license-filter" name="license"><option>All</option>{LICENSE_STATES.map((item) => <option>{item}</option>)}</select></label>
+            </div>
+          </details>
+          <button class="button reset-filters" id="reset-filters" type="reset">Reset all</button>
         </form>
         <p class="catalogue-count" id="catalogue-count" aria-live="polite">Showing {PROJECTS.length} of {PROJECTS.length} projects</p>
-        <p class="catalogue-data">Download the catalogue as <a href="/projects.json">JSON</a>, <a href="/projects.csv">CSV</a> or <a href="/knowledge/projects.md">OKF v0.2 Markdown</a>. The catalogue is released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>; linked projects and their data keep their own terms.</p>
-        <p class="catalogue-scroll-hint" id="catalogue-scroll-hint">Swipe the table sideways to compare every column.</p>
+        <p class="active-filters" id="active-filters">No filters applied.</p>
+        <p class="catalogue-data">Download <a href="/projects.json">JSON</a>, <a href="/projects.csv">CSV</a> or the <a href="/knowledge/projects.md">OKF v0.2 Markdown catalogue</a>. Read the <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf">OKF project</a> and <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/374e0bc4c644310ff56cdf9c0fe81eccdec862b0/okf/SPEC.md">pinned v0.2 specification</a>. Catalogue metadata is CC0; linked projects and their data keep their own terms.</p>
+        <p class="catalogue-scroll-hint" id="catalogue-scroll-hint">The table may scroll sideways. Tab to the table, then use horizontal scrolling to compare every column.</p>
         <div class="catalogue-scroll" role="region" aria-label="Scrobbling projects table" aria-describedby="catalogue-scroll-hint" tabindex="0">
           <table>
-            <caption class="sr-only">Source-checked scrobbling projects. Use the column buttons to sort.</caption>
+            <caption class="sr-only">Source-linked scrobbling projects. Use the column buttons to sort.</caption>
             <thead><tr>
               <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="name">Project</button></th>
               <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="media">Media</button></th>
-              <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="role">Role</button></th>
-              <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="capture">Capture method</button></th>
-              <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="source">Source and contribution</button></th>
+              <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="category">Category</button></th>
+              <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="capture">Capture</button></th>
+              <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="checkedAt">Evidence</button></th>
             </tr></thead>
             <tbody>
               {PROJECTS.map((project) => (
-                <tr data-project-row data-name={project.name} data-media={project.media.join('|')} data-media-sort={project.media.join(', ')} data-role={project.role} data-capture={project.capture} data-source={project.source}>
+                <tr
+                  data-project-row
+                  data-id={project.id}
+                  data-name={project.name}
+                  data-query={`${project.name} ${project.summary} ${project.media.join(' ')} ${project.category} ${project.capture}`}
+                  data-media={project.media.join('|')}
+                  data-media-sort={project.media.join(', ')}
+                  data-category={project.category}
+                  data-capture={project.capture}
+                  data-source-state={project.sourceState}
+                  data-license={project.license ? 'Published licence' : 'No licence verified'}
+                  data-checked-at={project.checkedAt}
+                >
                   <th scope="row"><a href={project.url}>{project.name}</a><span>{project.summary}</span></th>
-                  <td>{project.media.join(', ')}</td><td>{project.role}</td><td>{project.capture}</td>
-                  <td><span>{project.source}{project.license ? ` · ${project.license}` : ''}</span><a href={project.contribute} aria-label={`Contribute to ${project.name}`}>Contribute</a></td>
+                  <td>{project.media.join(', ')}</td>
+                  <td>{project.category}</td>
+                  <td>{project.capture}</td>
+                  <td>
+                    <span>{project.sourceState} · {project.license ?? 'No licence verified'}</span>
+                    <span>Lifecycle: {project.lifecycle} · checked {project.checkedAt}</span>
+                    <a href={project.sources[0].url}>Primary source</a>
+                    <a href={project.contribute} aria-label={`Contribute to ${project.name}`}>Contribute</a>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p class="catalogue-empty" id="catalogue-empty" hidden>No verified entry matches those filters. Suggest one with a first-party source.</p>
+        <p class="catalogue-empty" id="catalogue-empty" hidden>No project matches every selected filter. Remove a filter or reset the catalogue.</p>
         <p class="sr-only" id="sort-status" aria-live="polite"></p>
       </div>
     </div>
   </section>
 
-  <section class="shell section" aria-labelledby="gaps-title">
-    <div class="section-intro"><p class="section-label">Coverage gaps</p><h2 id="gaps-title">A short category is a question, not a verdict.</h2><p>Music has many specialist clients. Books, comics, podcasts and games currently rely on the two cross-media Floppy entries in this catalogue. If an active project is missing, add its first-party documentation and describe how it captures an event.</p><p><a href="/faq/">Read the FAQ</a> for a comparison of common services and the reasons anime and mapping systems need extra care.</p></div>
-  </section>
-
-  <section class="contribute-band" id="contribute" aria-labelledby="catalogue-contribute-title">
-    <div class="shell section">
-      <div class="section-intro"><p class="section-label">Two ways in</p><h2 id="catalogue-contribute-title">Correct the guide or improve the software.</h2></div>
-      <div class="contribution-lanes">
-        <article><p class="project-type">Scrobble.dev</p><h3>Add knowledge to the site</h3><p>Propose a missing project, correct a row or document a tracking edge case. Bring a first-party source, a short factual summary and the media event the project captures.</p><ul><li>Use plain Markdown and stable links.</li><li>Keep one correction or topic per change.</li><li>Separate documented behaviour from interpretation.</li></ul><div class="project-links"><a class="button primary" href="https://github.com/Electric-Town/scrobble.dev/issues/new">Suggest a catalogue change</a><a href="https://github.com/Electric-Town/scrobble.dev">Edit the field guide</a></div></article>
-        <article><p class="project-type">Floppy</p><h3>Fix a real tracking failure</h3><p>Report the media identity, the observed event, what the software recorded and what should survive a retry, correction, import or export.</p><ul><li>Add an anonymized example or reproducible sequence.</li><li>Name the provider identifiers and numbering scheme.</li><li>Include a round-trip test when code changes behaviour.</li></ul><div class="project-links"><a class="button primary" href="https://github.com/dannyvfilms/Floppy/issues">Browse Floppy issues</a><a href="https://github.com/dannyvfilms/Floppy/blob/latest/CONTRIBUTING.md">Read the contribution guide</a></div></article>
-      </div>
-      <p class="reference-note">The machine-readable knowledge bundle follows <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf">Open Knowledge Format v0.2</a>: Markdown concepts, YAML frontmatter, stable paths and ordinary links.</p>
+  <section class="shell section" aria-labelledby="catalogue-contribute-title">
+    <div class="section-intro">
+      <p class="section-label">Correct or extend the record</p>
+      <h2 id="catalogue-contribute-title">Contribute where the evidence belongs.</h2>
+      <p>Correct a catalogue fact in <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">Scrobble.dev</a>. Reproduce a tracking failure in <a href="https://github.com/dannyvfilms/Floppy/issues">Floppy</a>. Include the source, checked date and the event that did not survive as expected.</p>
     </div>
   </section>
 </BaseLayout>
 
 <script>
+  const form = document.querySelector<HTMLFormElement>('#catalogue-filters');
+  const query = document.querySelector<HTMLInputElement>('#query-filter');
   const media = document.querySelector<HTMLSelectElement>('#media-filter');
-  const role = document.querySelector<HTMLSelectElement>('#role-filter');
+  const category = document.querySelector<HTMLSelectElement>('#category-filter');
   const source = document.querySelector<HTMLSelectElement>('#source-filter');
+  const license = document.querySelector<HTMLSelectElement>('#license-filter');
   const rows = Array.from(document.querySelectorAll<HTMLTableRowElement>('[data-project-row]'));
   const count = document.querySelector<HTMLElement>('#catalogue-count');
+  const active = document.querySelector<HTMLElement>('#active-filters');
   const empty = document.querySelector<HTMLElement>('#catalogue-empty');
   const body = document.querySelector<HTMLTableSectionElement>('.catalogue tbody');
   const sortStatus = document.querySelector<HTMLElement>('#sort-status');
   const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+  const params = new URLSearchParams(window.location.search);
+
+  const controls = { q: query, media, category, source, license };
+  for (const [key, control] of Object.entries(controls)) {
+    const value = params.get(key);
+    if (control && value) control.value = value;
+  }
+
+  function replaceUrl() {
+    const next = new URLSearchParams();
+    for (const [key, control] of Object.entries(controls)) {
+      const value = control?.value.trim() ?? '';
+      if (value && value !== 'All') next.set(key, value);
+    }
+    const sorted = document.querySelector<HTMLTableCellElement>('.catalogue thead th[aria-sort="ascending"], .catalogue thead th[aria-sort="descending"]');
+    const sortButton = sorted?.querySelector<HTMLButtonElement>('[data-sort]');
+    if (sortButton && sorted) {
+      next.set('sort', sortButton.dataset.sort ?? 'name');
+      next.set('order', sorted.getAttribute('aria-sort') === 'descending' ? 'desc' : 'asc');
+    }
+    window.history.replaceState({}, '', `${window.location.pathname}${next.size ? `?${next}` : ''}`);
+  }
 
   function updateCatalogue() {
+    const search = query?.value.trim().toLocaleLowerCase('en') ?? '';
     let visible = 0;
     for (const row of rows) {
-      const matches = (media?.value === 'All' || row.dataset.media?.split('|').includes(media?.value ?? '')) && (role?.value === 'All' || row.dataset.role === role?.value) && (source?.value === 'All' || row.dataset.source === source?.value);
+      const matches = (!search || row.dataset.query?.toLocaleLowerCase('en').includes(search))
+        && (media?.value === 'All' || row.dataset.media?.split('|').includes(media?.value ?? ''))
+        && (category?.value === 'All' || row.dataset.category === category?.value)
+        && (source?.value === 'All' || row.dataset.sourceState === source?.value)
+        && (license?.value === 'All' || row.dataset.license === license?.value);
       row.hidden = !matches;
       if (matches) visible += 1;
     }
     if (count) count.textContent = `Showing ${visible} of ${rows.length} projects`;
     if (empty) empty.hidden = visible !== 0;
+    const labels = Object.entries(controls)
+      .map(([key, control]) => control && control.value && control.value !== 'All' ? `${key === 'q' ? 'search' : key}: ${control.value}` : '')
+      .filter(Boolean);
+    if (active) active.textContent = labels.length ? `Active filters: ${labels.join('; ')}.` : 'No filters applied.';
+    replaceUrl();
   }
 
-  for (const filter of [media, role, source]) filter?.addEventListener('change', updateCatalogue);
+  for (const control of Object.values(controls)) {
+    control?.addEventListener(control === query ? 'input' : 'change', updateCatalogue);
+  }
+
+  form?.addEventListener('reset', () => window.setTimeout(updateCatalogue));
+
+  function sortBy(key: string, direction: 'asc' | 'desc', announce = true) {
+    const button = document.querySelector<HTMLButtonElement>(`[data-sort="${CSS.escape(key)}"]`);
+    const header = button?.closest<HTMLTableCellElement>('th');
+    for (const other of document.querySelectorAll<HTMLTableCellElement>('.catalogue thead th')) {
+      other.setAttribute('aria-sort', other === header ? (direction === 'desc' ? 'descending' : 'ascending') : 'none');
+    }
+    const datasetKey = key === 'media' ? 'mediaSort' : key;
+    rows.sort((left, right) => collator.compare(left.dataset[datasetKey] ?? '', right.dataset[datasetKey] ?? '') * (direction === 'desc' ? -1 : 1));
+    for (const row of rows) body?.append(row);
+    if (announce && sortStatus) sortStatus.textContent = `Sorted by ${button?.textContent?.trim()} ${direction === 'desc' ? 'descending' : 'ascending'}.`;
+    replaceUrl();
+  }
 
   for (const button of document.querySelectorAll<HTMLButtonElement>('[data-sort]')) {
     button.addEventListener('click', () => {
       const header = button.closest<HTMLTableCellElement>('th');
-      const direction = header?.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
-      for (const other of document.querySelectorAll<HTMLTableCellElement>('.catalogue thead th')) other.setAttribute('aria-sort', other === header ? direction : 'none');
-      const key = button.dataset.sort ?? 'name';
-      const value = (row: HTMLTableRowElement) => row.dataset[key === 'media' ? 'mediaSort' : key] ?? '';
-      rows.sort((left, right) => collator.compare(value(left), value(right)) * (direction === 'descending' ? -1 : 1));
-      for (const row of rows) body?.append(row);
-      if (sortStatus) sortStatus.textContent = `Sorted by ${button.textContent?.trim()} ${direction}.`;
+      const direction = header?.getAttribute('aria-sort') === 'ascending' ? 'desc' : 'asc';
+      sortBy(button.dataset.sort ?? 'name', direction);
     });
   }
+
+  const initialSort = params.get('sort');
+  const initialOrder = params.get('order') === 'desc' ? 'desc' : 'asc';
+  if (initialSort && document.querySelector(`[data-sort="${CSS.escape(initialSort)}"]`)) sortBy(initialSort, initialOrder, false);
+  updateCatalogue();
 </script>

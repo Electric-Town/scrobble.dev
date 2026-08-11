@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'Learn scrobbling — Scrobble.dev';
+const description = 'Plain-language guides to scrobbling, media activity, tracker differences, privacy, correction and portable history.';
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Learn scrobbling',
+  description,
+  hasPart: [
+    { '@type': 'TechArticle', name: 'What is scrobbling?', url: 'https://scrobble.dev/learn/scrobbling/' },
+    { '@type': 'TechArticle', name: 'The media activity lifecycle', url: 'https://scrobble.dev/learn/lifecycle/' }
+  ]
+}];
+---
+<BaseLayout {title} {description} type="CollectionPage" schema={schema} modified="2026-08-11" status="stable">
+  <article class="shell section article">
+    <div class="article-body">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Field guide</a><span aria-hidden="true">/</span><span aria-current="page">Learn</span></nav>
+      <p class="kicker">Learn</p>
+      <h1>Understand the record before choosing the tool.</h1>
+      <p class="standfirst">Scrobbling turns media activity into a history. These guides explain what the records mean, where they differ and what should remain under the user's control.</p>
+      <h2>Start here</h2>
+      <ul class="task-list">
+        <li><a href="/learn/scrobbling/"><strong>What is scrobbling?</strong><span>The definition, history and distinctions from ratings, lists and collections.</span></a></li>
+        <li><a href="/learn/lifecycle/"><strong>When does activity become history?</strong><span>Now playing, progress, scrobbles and completion.</span></a></li>
+        <li><a href="/faq/"><strong>How do tracking projects differ?</strong><span>Anime as a catalogue facet, common projects, portability and catalogue licensing.</span></a></li>
+        <li><a href="/projects/"><strong>Which projects record this media?</strong><span>A source-linked, filterable catalogue.</span></a></li>
+      </ul>
+      <p class="contribution-note">Found an unclear definition or better primary source? <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">Suggest one focused correction</a>.</p>
+    </div>
+  </article>
+</BaseLayout>

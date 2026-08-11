@@ -1,22 +1,38 @@
 ---
 type: Defined Concept
 title: Scrobbling
-description: Recording media-consumption activity as structured events so history and progress can be preserved, analyzed, synchronized, and moved.
+description: Recording media activity as durable, time-stamped history.
 resource: https://scrobble.dev/learn/scrobbling/
 tags: [scrobbling, media-tracking, history, interoperability]
-timestamp: 2026-08-11T17:38:00Z
 status: stable
+generated: { by: human:scrobble-dev-maintainers, at: 2026-08-11T23:00:00Z }
+verified: { by: human:scrobble-dev-maintainers, at: 2026-08-11T23:00:00Z }
+stale_after: 2027-02-11
+sources:
+  - { id: lastfm-history, resource: "https://blog.last.fm/2008/05/21/building-the-next-lastfm", title: "Building the Next Last.fm", author: team:lastfm, last_modified: 2008-05-21 }
+  - { id: lastfm-submissions, resource: "https://www.last.fm/api/submissions", title: "Last.fm submissions protocol", author: team:lastfm, last_modified: 2009-03-26 }
 ---
+
 # Scrobbling
 
-Scrobbling is the recording of media consumption as an event: what was consumed, when it happened, how far it progressed, and enough identity information to connect the event to the correct work.
+Scrobbling records media activity as durable history: what was listened to, watched, read or played, and when it happened.
 
-It is broader than any one tracker or medium. Music plays, movie watches, episode progress, reading progress, podcast listening, game sessions, and board-game plays can all be represented as scrobbling when the activity becomes a durable history.
+Last.fm traces Audioscrobbler to 2002.[^lastfm-history] Its retired submissions protocol distinguished temporary now-playing state from historical submissions.[^lastfm-submissions]
+
+## Distinctions
+
+A watchlist records intent. A collection records ownership or availability. A rating records opinion. A scrobble records activity in history. Implementations may connect these concepts without storing them as the same fact.
+
+## Media context
+
+Music plays, film watches, episode history, reading progress, podcast listening and game sessions can all enter a durable media history. Their useful progress units and identity context remain different.
 
 ## Related concepts
+
+- [Media activity lifecycle](./activity-lifecycle.md)
 - [Scrobble event](./scrobble-event.md)
 - [Media identity](./media-identity.md)
 - [Interoperability](./interoperability.md)
 
-## Distinctions
-A watchlist records intent. A collection records ownership or availability. A rating records opinion. A scrobble records consumption activity. Implementations may connect these concepts, but should not silently treat them as equivalent.
+[^lastfm-history]: Building the Next Last.fm.
+[^lastfm-submissions]: Last.fm submissions protocol.

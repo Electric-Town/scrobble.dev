@@ -1,13 +1,16 @@
 ---
 import '../styles/global.css';
+import { SITE } from '../data/site.mjs';
 
 const {
   title = 'Scrobble.dev — a field guide to scrobbling',
-  description = 'What scrobbling records, where it came from, and how trackers can exchange media history without flattening every medium into the same model.',
+  description = 'Plain-language guidance for recording, correcting, exchanging and preserving media activity.',
   canonical = Astro.url.pathname,
   type = 'WebPage',
   schema = [],
-  markdown
+  markdown,
+  status,
+  modified
 } = Astro.props;
 
 const canonicalUrl = new URL(canonical, Astro.site ?? 'https://scrobble.dev');
@@ -19,7 +22,7 @@ const baseSchema = [
     '@id': 'https://scrobble.dev/#website',
     url: 'https://scrobble.dev/',
     name: 'Scrobble.dev',
-    description: 'A field guide to scrobbling and media-tracking interoperability.',
+    description: SITE.description,
     inLanguage: 'en'
   },
   {
@@ -31,7 +34,7 @@ const baseSchema = [
     description,
     isPartOf: { '@id': 'https://scrobble.dev/#website' },
     inLanguage: 'en',
-    dateModified: '2026-08-11'
+    ...(modified ? { dateModified: modified } : {})
   },
   ...schema
 ];
@@ -65,46 +68,46 @@ const baseSchema = [
       <div class="shell masthead">
         <a class="wordmark" href="/" aria-label="Scrobble.dev home">scrobble.dev</a>
         <p>A field guide to media tracking</p>
-        <a href="https://github.com/Electric-Town/scrobble.dev">Source on GitHub</a>
       </div>
-      <nav class="shell nav" aria-label="Primary navigation">
-        <a href="/learn/scrobbling/" aria-current={pathname.startsWith('/learn/') ? 'page' : undefined}>Definition</a>
-        <a href="/standard/" aria-current={pathname.startsWith('/standard/') ? 'page' : undefined}>Draft rules</a>
-        <a href="/projects/" aria-current={pathname === '/projects/' ? 'page' : undefined}>Project catalogue</a>
-        <a href="/faq/" aria-current={pathname.startsWith('/faq/') ? 'page' : undefined}>FAQ</a>
-        <a href="/projects/floppy/" aria-current={pathname.startsWith('/projects/floppy') ? 'page' : undefined}>Floppy</a>
-        <a href="/contribute/" aria-current={pathname.startsWith('/contribute/') ? 'page' : undefined}>Contribute</a>
+      <nav class="shell nav desktop-nav" aria-label="Primary navigation">
+        {SITE.primaryNavigation.map((item) => (
+          <a href={item.href} aria-current={item.match.some((prefix) => pathname.startsWith(prefix)) ? 'page' : undefined}>{item.label}</a>
+        ))}
       </nav>
+      <details class="site-menu">
+        <summary class="shell">Menu</summary>
+        <nav class="shell mobile-nav" aria-label="Primary navigation, small screens">
+          {SITE.primaryNavigation.map((item) => (
+            <a href={item.href} aria-current={item.match.some((prefix) => pathname.startsWith(prefix)) ? 'page' : undefined}>{item.label}</a>
+          ))}
+        </nav>
+      </details>
     </header>
-    <main id="main"><slot /></main>
+    <main id="main" tabindex="-1"><slot /></main>
     <footer class="site-footer h-card">
       <div class="shell footer-grid">
         <div>
           <a class="wordmark p-name u-url" href="https://scrobble.dev/">scrobble.dev</a>
-          <p class="p-note">A field guide to scrobbling and media-tracking interoperability.</p>
+          <p class="p-note">{SITE.description}</p>
         </div>
-        <nav aria-label="Project links">
-          <p>Projects</p>
-          <a href="/projects/">Scrobbling catalogue</a>
-          <a href="/faq/">Frequently asked questions</a>
-          <a href="https://github.com/dannyvfilms/Floppy">Floppy</a>
-          <a href="https://github.com/Electric-Town/FloppyDesktop">FloppyDesktop</a>
-        </nav>
-        <nav aria-label="Contribution links">
-          <p>Contribute</p>
-          <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">Improve this field guide</a>
-          <a href="https://github.com/dannyvfilms/Floppy/issues">Work on Floppy</a>
-          <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">Add or correct a project</a>
-        </nav>
-        <nav aria-label="Sponsor links">
-          <p>Support the maintainers</p>
-          <a href="https://github.com/sponsors/dannyvfilms">Sponsor Danny</a>
-          <a href="https://github.com/sponsors/ryan-winkler">Sponsor Ryan</a>
-        </nav>
+        {SITE.footerSections.map((section) => (
+          <nav aria-label={section.label}>
+            <p>{section.label}</p>
+            {section.links.map((link) => <a href={link.href}>{link.label}</a>)}
+          </nav>
+        ))}
       </div>
       <div class="shell footer-bottom">
-        <span>Discussion draft 0.1</span>
-        <span>Last revised 11 August 2026</span>
+        <nav class="footer-actions" aria-label="Contribution links">
+          <span>Contribute</span>
+          {SITE.footerActions.map((link) => <a href={link.href}>{link.label}</a>)}
+        </nav>
+        {(status || modified) && (
+          <p class="footer-page-meta">
+            {status && <span>Status: {status}</span>}
+            {modified && <span>Updated <time datetime={modified}>{modified}</time></span>}
+          </p>
+        )}
       </div>
     </footer>
   </body>

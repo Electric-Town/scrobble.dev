@@ -2,15 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const title = 'Frequently asked questions about scrobbling — Scrobble.dev';
-const description = 'Why anime gets its own catalogue filter, how common trackers differ, why media mappings disagree, and what licensing means for reusable crosswalk data.';
+const description = 'Why anime has a separate catalogue facet, how common trackers differ, what portable scrobble records preserve, and how catalogue data can be reused.';
 const questions = [
-  ['Why is anime its own media type?', 'It is a practical catalogue facet, not a claim that anime sits outside film or television. Anime workflows often use release-level identifiers and absolute episode numbers, while television databases often use seasons, specials and alternate orders. Projects can be listed under anime and film or television.'],
-  ['How do Trakt, Simkl, Letterboxd, WeTrakr and other trackers differ?', 'They differ in media scope, capture method, hosting model and portability. Trakt and WeTrakr support playback scrobbling for film and television, Simkl covers film, television and anime, Letterboxd centers on manual film logs and a diary, and music services such as Last.fm and ListenBrainz accept listening submissions.'],
-  ['Why are there so many mapping solutions?', 'Providers model different things at different grains. A work, release, season, episode order, film cut and local file are not interchangeable. Mappings also differ in source coverage, evidence, licensing and conflict policy.'],
-  ['Are AniList, Kitsu or AIOMetadata universal fixes for anime matching?', 'No. AniList and Kitsu provide anime-native identities and lists. AIOMetadata is a configurable Stremio metadata add-on that maps several identifier systems. Each can improve a particular integration, but none removes the need to preserve source identifiers, numbering schemes, provenance and unresolved conflicts.'],
-  ['What do the Nuvio Mobile issue reports establish?', 'They document concrete failure modes involving absolute numbering, metadata enrichment and watch-progress races. Some reports were based on static analysis and later closed by automation, so they are useful test cases rather than proof that every current Nuvio release has the defect. Nuvio Mobile is an application, not a general-purpose scrobbling framework.'],
-  ['Can a mapping database be reused commercially?', 'Only when its licence and acquisition routes allow it. In the EU, database copyright and a separate database right can apply. A code licence does not automatically license the data. CC0 is the clearest route for unrestricted reuse, including commercial use, when contributors have the rights needed to make that dedication.'],
-  ['What should a portable scrobble preserve?', 'At minimum: the event identity, media type, source namespace and provider identifier, item grain, numbering scheme, event time, recorded time, native progress, provenance and correction history. Synchronization also needs safe retry and conflict handling.']
+  ['Why is anime a separate catalogue facet?', 'Anime is a separate filter because it helps people find projects that track episodes, specials, split releases, continuing titles and rewatches. It is a navigation choice, not a claim that anime sits outside film or television.'],
+  ['How do common tracking projects differ?', 'Projects differ in media scope, capture method, hosting model and the records they keep. Some receive playback events, some provide a diary, some keep listening history, and some store a self-hosted record across several media.'],
+  ['What should a portable scrobble preserve?', 'A portable record should preserve stable event identity, source-local media identity, event and recorded times, native progress, provenance, correction or deletion state, and enough retry information to avoid duplicate history.'],
+  ['Can the Scrobble.dev catalogue be reused commercially?', 'Yes. Scrobble.dev releases the catalogue under CC0. That dedication covers the catalogue published by Scrobble.dev; linked projects, repositories and upstream data retain their own terms.'],
+  ['How can I contribute?', 'Use the Scrobble.dev issue tracker for a factual correction or project update. Use the Floppy or FloppyDesktop issue tracker for changes to those applications. Include the claim, primary source and date checked.']
 ];
 const schema = [
   {
@@ -34,83 +32,59 @@ const schema = [
     <div class="article-body e-content">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Field guide</a><span aria-hidden="true">/</span><span aria-current="page">FAQ</span></nav>
       <p class="kicker">Frequently asked questions</p>
-      <h1 class="p-name">Questions about trackers, anime and mappings.</h1>
-      <p class="standfirst e-summary">The short answer comes first. Links point to the service, specification or issue being discussed.</p>
+      <h1 class="p-name">Questions about scrobbling, trackers and portable records.</h1>
+      <p class="standfirst e-summary">Each answer states the practical distinction first. Current project claims link to the project or its documentation.</p>
 
-      <h2 id="anime">Why is anime its own media type?</h2>
-      <p>It does not have to be. Scrobble.dev exposes anime as a catalogue filter because its tracking failures are easier to find that way.</p>
-      <p>Anime-native services often identify each release or cour separately and may count episodes in one absolute run. Television databases may group the same title into seasons, move specials into season zero, or offer aired, DVD and alternate orders. A single episode can therefore have several correct coordinates, each correct inside a different system.</p>
-      <p>The label is practical, not a claim that anime sits outside animation, film or television. A project can appear under more than one media type. The separate filter should disappear if it stops helping people find the right tools and failure cases.</p>
+      <h2 id="anime">Why is anime a separate catalogue facet?</h2>
+      <p>Anime is a separate filter because it helps people find projects that track episodes, specials, split releases, continuing titles and rewatches. It is a navigation choice, not a claim that anime sits outside film or television.</p>
+      <p>A project can appear under anime and another media type. The facet should remain only while it helps people find relevant tools and tracking behaviour.</p>
 
       <h2 id="trackers">How do common tracking projects differ?</h2>
-      <p>They answer different questions. Some capture playback automatically. Others are diaries, list managers or self-hosted databases. None is the default for every medium.</p>
+      <p>Projects differ in media scope, capture method, hosting model and the records they keep. Some receive playback events, some provide a diary, some keep listening history, and some store a self-hosted record across several media.</p>
       <p class="catalogue-scroll-hint" id="tracker-table-hint">Swipe the table sideways to compare every column.</p>
       <div class="catalogue-scroll" role="region" aria-label="Common tracker comparison" aria-describedby="tracker-table-hint" tabindex="0">
         <table>
           <thead><tr><th scope="col">Project</th><th scope="col">Main scope</th><th scope="col">Typical record</th><th scope="col">Useful when</th></tr></thead>
           <tbody>
-            <tr><th scope="row"><a href="https://github.com/dannyvfilms/Floppy">Floppy</a></th><td>Ten media types</td><td>Library, history and progress</td><td>A self-hosted, cross-media record.</td></tr>
-            <tr><th scope="row"><a href="https://www.last.fm/about/trackmymusic">Last.fm</a></th><td>Music</td><td>Submitted listens</td><td>Long-running listening history and recommendations.</td></tr>
-            <tr><th scope="row"><a href="https://listenbrainz.org/">ListenBrainz</a></th><td>Music</td><td>Open listening history</td><td>Open-source infrastructure and exports.</td></tr>
-            <tr><th scope="row"><a href="https://trakt.tv/">Trakt</a></th><td>Film and television</td><td>History, progress and playback events</td><td>Media centers that emit start, pause and stop events.</td></tr>
-            <tr><th scope="row"><a href="https://simkl.com/">Simkl</a></th><td>Film, television and anime</td><td>History, lists and episode state</td><td>Automatic trackers, imports and one profile across its three areas.</td></tr>
-            <tr><th scope="row"><a href="https://letterboxd.com/welcome/">Letterboxd</a></th><td>Film</td><td>Dated diary entry, rating, review or list</td><td>Film logging and social discovery rather than live playback progress.</td></tr>
-            <tr><th scope="row"><a href="https://github.com/wetrakr/wetrakr-kodi">WeTrakr</a></th><td>Film and television</td><td>Kodi start, progress, pause, stop and watched events</td><td>Kodi playback sent to a tracking service.</td></tr>
+            <tr><th scope="row"><a href="https://github.com/dannyvfilms/Floppy">Floppy</a></th><td>Ten media types</td><td>Library, history and progress</td><td>A self-hosted, cross-media record is required.</td></tr>
+            <tr><th scope="row"><a href="https://www.last.fm/about/trackmymusic">Last.fm</a></th><td>Music</td><td>Submitted listens</td><td>Players and services submit listening activity.</td></tr>
+            <tr><th scope="row"><a href="https://listenbrainz.org/">ListenBrainz</a></th><td>Music</td><td>Open listening history</td><td>An open-source service and exportable listening data are required.</td></tr>
+            <tr><th scope="row"><a href="https://trakt.tv/">Trakt</a></th><td>Film and television</td><td>History, progress and playback events</td><td>Media applications report playback activity.</td></tr>
+            <tr><th scope="row"><a href="https://simkl.com/">Simkl</a></th><td>Film, television and anime</td><td>History, lists and episode state</td><td>One service covers its three advertised media areas.</td></tr>
+            <tr><th scope="row"><a href="https://letterboxd.com/welcome/">Letterboxd</a></th><td>Film</td><td>Dated diary entry, rating, review or list</td><td>The task is film logging rather than live playback progress.</td></tr>
+            <tr><th scope="row"><a href="https://github.com/wetrakr/wetrakr-kodi">WeTrakr</a></th><td>Film and television</td><td>Kodi playback events</td><td>Kodi playback is sent to a tracking service.</td></tr>
           </tbody>
         </table>
       </div>
-      <p>See the <a href="/projects/">sortable project catalogue</a> for source availability, licences and contribution links. The table describes; it does not rank.</p>
+      <p>The <a href="/projects/">project catalogue</a> records source availability, licences and contribution routes. It describes projects; it does not rank them.</p>
 
-      <h2 id="mappings">Why are there so many mapping solutions?</h2>
-      <p>Because there is no single mapping problem. Providers disagree about identity, grain and numbering. A film work and a particular cut are different records. A television series and a season are different records. An anime release can cover part of a television season, while a platform may combine two short episodes into one catalogue entry.</p>
-      <p>Coverage and legal terms differ too. One source may permit direct reuse. Another may allow lookup but not bulk republication. A third may only be usable through a permissively licensed cross-reference. A reliable mapping stores the acquisition route and retrieval date alongside the assertion.</p>
-      <p>The safe default is to keep source identifiers, ranges, offsets and unresolved claims. Do not force a one-to-one edge because a target format cannot express the real relationship.</p>
-
-      <h2 id="anime-fixes">Are AniList, Kitsu or AIOMetadata universal fixes?</h2>
-      <p>No. AniList and Kitsu supply anime-native identities and list workflows. <a href="https://github.com/cedya77/aiometadata">AIOMetadata</a> is a configurable Stremio metadata add-on that combines providers and mapping systems. Those capabilities can improve a particular setup, but choosing a specialist provider does not make every ID, season order or progress event agree.</p>
-      <p>Community reports in <a href="https://www.reddit.com/r/StremioAddons/comments/1tgxpyu/aiometadata_anime_solutions/">r/StremioAddons</a> describe trade-offs between grouped seasons and episode accuracy. They are useful observations, not controlled evidence and not a guarantee for another configuration.</p>
-
-      <h2 id="nuvio">What do the Nuvio Mobile reports establish?</h2>
-      <p>The issue tracker contains useful test cases:</p>
+      <h2 id="portable-record">What should a portable scrobble preserve?</h2>
+      <p>A portable record should preserve enough information to identify, interpret, retry and correct the event:</p>
       <ul>
-        <li><a href="https://github.com/NuvioMedia/NuvioMobile/issues/1027">Issue 1027</a> describes an absolute-number fallback shifted by season-zero specials.</li>
-        <li><a href="https://github.com/NuvioMedia/NuvioMobile/issues/1679">Issue 1679</a> describes anime provider IDs that could not reach TMDB enrichment without a separate alias.</li>
-        <li><a href="https://github.com/NuvioMedia/NuvioMobile/issues/1026">Issue 1026</a> describes a race in which a remote pull could overwrite local progress before a debounced push completed.</li>
-        <li><a href="https://github.com/NuvioMedia/NuvioMobile/issues/1702">Issue 1702</a> asks for explicit aired, DVD, absolute and alternate episode-order choices.</li>
+        <li>A stable event identifier.</li>
+        <li>The media type and the source-local identity known when the event was recorded.</li>
+        <li>The event time and, when different, the recorded time.</li>
+        <li>Progress in the medium's native unit before a percentage is derived.</li>
+        <li>Provenance, including whether the record came from playback, manual entry, import or synchronization.</li>
+        <li>Correction or deletion state and enough retry information to prevent duplicate history.</li>
       </ul>
-      <p>That evidence needs limits. Issues 1026 and 1027 were based on static source analysis rather than a runtime reproduction. Issue 1026 later closed as stale, and issue 1679 closed because it lacked a label. Those states do not prove a fix or a current regression. They show failure modes worth testing.</p>
-      <p><a href="https://github.com/NuvioMedia/NuvioMobile">Nuvio Mobile</a> is an application. Its repository does not present a general-purpose “Nuvio Mobile Framework” for other scrobblers. API throttling can reduce write volume, but it cannot correct the wrong media identity or settle a local-versus-remote conflict.</p>
+      <p>These fields do not guarantee that two systems will make the same decision. They preserve enough context to explain a difference and correct the resulting history.</p>
 
-      <h2 id="portable-record">What should an implementation preserve?</h2>
-      <ul>
-        <li>The source namespace, provider identifier and item grain.</li>
-        <li>The numbering scheme, including season, absolute order, specials, ranges and offsets.</li>
-        <li>A stable event identifier, event time and recorded time.</li>
-        <li>Native progress units before deriving a percentage.</li>
-        <li>Provenance, confidence, conflicts, corrections and deletion.</li>
-        <li>Dirty local state or another explicit conflict rule before merging remote progress.</li>
-      </ul>
-      <p>These fields do more work than a preferred provider name. They let a consumer explain what happened when two systems disagree.</p>
-
-      <h2 id="licensing">What are the copyright and database-right issues?</h2>
-      <p>Identifiers and factual relationships may look simple, but a compiled database can carry separate rights. The <a href="https://digital-strategy.ec.europa.eu/en/policies/protection-databases">European Commission’s summary</a> explains that database copyright and a sui generis database right can both apply in the EU. A software licence covers code; it does not automatically grant rights to every dataset the code reads.</p>
-      <p>Commercial adoption needs an explicit data licence and auditable provenance. <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a> permits copying, modification and distribution, including commercial use, without asking permission. <a href="https://www.wikidata.org/wiki/Wikidata:Licensing">Wikidata uses CC0</a> for its structured data. That makes CC0 a strong target for a community mapping corpus when every contributor has the rights needed to make the dedication.</p>
-      <p>Open does not mean careless. Keep descriptive metadata out unless its terms permit reuse. Record the acquisition route. Withdraw claims that cannot be supported. The Scrobble.dev project catalogue is CC0, but every linked service, repository and upstream database keeps its own terms. This is a design position, not legal advice.</p>
+      <h2 id="licensing">Can the Scrobble.dev catalogue be reused commercially?</h2>
+      <p>Yes. Scrobble.dev releases its project catalogue under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>, which permits copying, modification and commercial reuse without asking Scrobble.dev for permission.</p>
+      <p>That dedication covers the catalogue published by Scrobble.dev. Linked projects, repositories and upstream data retain their own terms. A software licence does not automatically grant rights to data used by that software. The <a href="https://digital-strategy.ec.europa.eu/en/policies/protection-databases">European Commission's database-protection summary</a> explains the separate rights that may apply in the European Union. This is an editorial summary, not legal advice.</p>
 
       <h2 id="contribute">How can I contribute?</h2>
-      <p>For a missing project, incorrect comparison or better primary source, <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">open one Scrobble.dev issue</a>. Include the claim, the source URL and the date you checked it.</p>
-      <p>For a Floppy behavior change, <a href="https://github.com/dannyvfilms/Floppy/issues">use the Floppy issue tracker</a>. Include the media identifiers, numbering scheme, event sequence, actual record and expected record. An anonymized round-trip case is more useful than a general description.</p>
+      <p>For a factual correction or project update, <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">open a Scrobble.dev issue</a>. Include the claim, a primary source and the date checked. The <a href="/about/">editorial method</a> explains how claims and draft proposals are labelled.</p>
+      <p>For application changes, use the <a href="https://github.com/dannyvfilms/Floppy/issues">Floppy issue tracker</a> or the <a href="https://github.com/Electric-Town/FloppyDesktop/issues">FloppyDesktop issue tracker</a>. Include the media type, event sequence, observed result, expected result and a private-data-safe example.</p>
     </div>
     <aside class="toc" aria-label="On this page">
       <strong>On this page</strong>
       <ul>
         <li><a href="#anime">Why anime?</a></li>
         <li><a href="#trackers">Tracker differences</a></li>
-        <li><a href="#mappings">Why mappings differ</a></li>
-        <li><a href="#anime-fixes">Specialist tools</a></li>
-        <li><a href="#nuvio">Nuvio reports</a></li>
         <li><a href="#portable-record">Portable records</a></li>
-        <li><a href="#licensing">Licensing</a></li>
+        <li><a href="#licensing">Catalogue licensing</a></li>
         <li><a href="#contribute">Contribute</a></li>
       </ul>
     </aside>

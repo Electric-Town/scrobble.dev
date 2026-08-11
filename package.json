@@ -5,10 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "generate:public": "node scripts/generate-public.mjs",
+    "prebuild": "npm run generate:public",
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs"
+    "validate:okf": "node scripts/validate-okf.mjs",
+    "validate:public": "node scripts/validate-public.mjs",
+    "test:okf": "node --test tests/okf.test.mjs",
+    "test": "npm run build && npm run validate:okf && npm run validate:public && node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
@@ -16,6 +21,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "typescript": "^5.9.0"
+    "typescript": "^5.9.0",
+    "yaml": "2.9.0"
   }
 }

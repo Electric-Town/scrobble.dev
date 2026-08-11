@@ -12,7 +12,7 @@ status: stable
 Scrobbling interoperability is the ability to exchange media-consumption history while preserving the semantics needed to interpret and correct it.
 
 ## Minimum concerns
-- identity mapping
+- preservation of source-local media context
 - event identity and deduplication
 - event time versus ingestion time
 - progress semantics

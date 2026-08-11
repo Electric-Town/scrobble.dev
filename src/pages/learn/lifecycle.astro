@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'When does media activity become history? — Scrobble.dev';
+const description = 'The difference between now playing, progress, a durable scrobble and completion.';
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'When does media activity become history?',
+  description,
+  dateModified: '2026-08-11',
+  author: { '@type': 'Organization', name: 'Scrobble.dev' },
+  mainEntityOfPage: 'https://scrobble.dev/learn/lifecycle/'
+}];
+---
+<BaseLayout {title} {description} type="TechArticle" schema={schema} markdown="/knowledge/concepts/activity-lifecycle.md" modified="2026-08-11" status="stable">
+  <article class="shell section article">
+    <div class="article-body">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Field guide</a><span aria-hidden="true">/</span><a href="/learn/">Learn</a><span aria-hidden="true">/</span><span aria-current="page">Activity lifecycle</span></nav>
+      <p class="kicker">Activity lifecycle</p>
+      <h1>When does media activity become history?</h1>
+      <p class="standfirst">A temporary player state becomes a scrobble when an implementation records it as durable history. Progress and completion can be related records, but neither is automatically the same event.</p>
+
+      <h2 id="example">A concrete example</h2>
+      <p>A player reports that an episode is playing. After twelve minutes it reports a position. The tracker later records a durable watch event. If the source declares the episode complete, the tracker may also record completion according to that source's policy.</p>
+
+      <h2 id="records">Four records with different jobs</h2>
+      <dl class="field-notes">
+        <div><dt>Now playing</dt><dd>Temporary state. It can disappear when the player stops and need never enter history.</dd></div>
+        <div><dt>Progress</dt><dd>Mutable position in a native unit such as seconds, pages, chapters or turns.</dd></div>
+        <div><dt>Scrobble</dt><dd>Durable history with an event time, media identity and provenance.</dd></div>
+        <div><dt>Completion</dt><dd>A policy decision that a defined unit is finished. Different media and sources can use different evidence.</dd></div>
+      </dl>
+
+      <h2 id="why">Why the distinction matters</h2>
+      <p>If every player update becomes history, retries can manufacture duplicate plays. If progress overwrites history, an earlier position can erase a completed event. If a universal percentage decides completion, it can misdescribe books, short tracks, episodic media and game sessions.</p>
+
+      <h2 id="practice">Recommended practice</h2>
+      <p>Preserve the source event and its native unit. Name the represented time. Give durable events stable identity. Record why completion was inferred or declared. Let users correct or remove the resulting history.</p>
+
+      <p class="contribution-note">Building this flow? <a href="/build/">Read the implementation path</a>. Found a reproducible failure? <a href="https://github.com/dannyvfilms/Floppy/issues">Contribute the case to Floppy</a>.</p>
+    </div>
+    <aside class="toc" aria-label="On this page"><strong>On this page</strong><ul><li><a href="#example">Example</a></li><li><a href="#records">Four records</a></li><li><a href="#why">Why it matters</a></li><li><a href="#practice">Recommended practice</a></li></ul></aside>
+  </article>
+</BaseLayout>
