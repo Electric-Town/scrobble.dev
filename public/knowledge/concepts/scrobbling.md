@@ -5,8 +5,7 @@ description: Recording media-consumption activity as structured events so histor
 resource: https://scrobble.dev/learn/scrobbling/
 tags: [scrobbling, media-tracking, history, interoperability]
 timestamp: 2026-08-11T17:38:00Z
-status: active
-trust: curated
+status: stable
 ---
 # Scrobbling
 

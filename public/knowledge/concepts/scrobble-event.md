@@ -5,8 +5,7 @@ description: A structured record of media-consumption activity.
 resource: https://scrobble.dev/standard/#event
 tags: [event, progress, provenance, timestamp]
 timestamp: 2026-08-11T17:38:00Z
-status: active
-trust: curated
+status: stable
 ---
 # Scrobble event
 

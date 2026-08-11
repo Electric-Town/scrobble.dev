@@ -5,8 +5,7 @@ description: How media entities are identified and reconciled across providers, 
 resource: https://scrobble.dev/standard/#identity
 tags: [identity, mappings, metadata, crosswalk]
 timestamp: 2026-08-11T17:38:00Z
-status: active
-trust: curated
+status: stable
 ---
 # Media identity and mappings
 

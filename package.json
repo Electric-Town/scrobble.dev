@@ -7,14 +7,15 @@
     "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "test": "npm run build && node --test tests/rendered-html.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.1.6"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.10.2",
+    "@astrojs/check": "^0.9.10",
     "typescript": "^5.9.0"
   }
 }

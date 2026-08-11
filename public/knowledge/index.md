@@ -1,3 +1,7 @@
+---
+okf_version: "0.2"
+---
+
 # Scrobble.dev knowledge bundle
 
 This directory is the machine- and human-readable knowledge layer for scrobbling and media tracking.
@@ -7,6 +11,10 @@ This directory is the machine- and human-readable knowledge layer for scrobbling
 - [Scrobble event](./concepts/scrobble-event.md)
 - [Media identity](./concepts/media-identity.md)
 - [Interoperability](./concepts/interoperability.md)
+- [Frequently asked questions](./faq.md)
+
+## Curated collections
+- [Scrobbling project catalogue](./projects.md)
 
 ## Conventions
 - Each concept has a stable path.
@@ -20,4 +28,6 @@ This directory is the machine- and human-readable knowledge layer for scrobbling
 - https://scrobble.dev/learn/scrobbling/
 - https://scrobble.dev/standard/
 - https://scrobble.dev/projects/floppy/
+- https://scrobble.dev/projects/
+- https://scrobble.dev/faq/
 - https://scrobble.dev/contribute/

@@ -5,8 +5,7 @@ description: Practices that let media histories move between trackers, players, 
 resource: https://scrobble.dev/standard/
 tags: [interoperability, sync, portability, provenance]
 timestamp: 2026-08-11T17:38:00Z
-status: active
-trust: curated
+status: stable
 ---
 # Scrobbling interoperability
 

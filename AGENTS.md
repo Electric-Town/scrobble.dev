@@ -49,7 +49,12 @@ Concept documents use Markdown with YAML frontmatter and a non-empty `type`. Pre
 - `tags`
 - `timestamp`
 - `status`
-- `trust`
+- `stale_after`
+- `generated`
+- `verified`
+- `sources`
+
+The root `index.md` may declare `okf_version: "0.2"`. Reserved `index.md` and `log.md` files follow OKF structure and are not ordinary concepts. Use `draft`, `stable` or `deprecated` when `status` is present.
 
 Relationships should use normal Markdown links. For externally sourced claims, include source/provenance information when adding or materially changing a concept.
 
@@ -61,11 +66,11 @@ Do not add fake reviews, ratings, authorship, dates, pricing, FAQ markup, or oth
 
 ## Design system
 
-Material You is the visual foundation, not a license for decoration.
+The site uses an editorial field-guide system.
 - Tokens belong in `src/styles/global.css`.
-- Use tonal surfaces instead of white cards and heavy borders.
-- Buttons are pill-shaped.
-- Cards and major containers use generous radii.
+- Prefer flat rules, source notes, tables and linear lists over card grids.
+- Use Georgia for reported headings, Arial for body copy and Courier New for labels.
+- Do not add gradients, backdrop blur, ornamental glows or rounded content containers.
 - Keep motion functional and restrained.
 - Respect `prefers-reduced-motion`.
 - Avoid continuous animation, parallax, attention-stealing glows, and widespread hover scaling.
@@ -112,6 +117,8 @@ Write like technical documentation maintained by practitioners.
 - no “revolutionary,” “game-changing,” or similar generic hype
 - explain trade-offs and ambiguity directly
 - define jargon at first use
+- maintain a third-person institutional narrator; do not drift into a conversational first-person voice
+- mark proposals, checked dates, sources and project-specific claims explicitly
 
 ## Floppy relationship
 

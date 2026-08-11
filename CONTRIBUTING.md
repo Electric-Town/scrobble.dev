@@ -12,6 +12,8 @@ For Floppy application features and bugs, contribute upstream at https://github.
 4. For behavior claims, use a primary source, reproducible example, fixture, API response, or implementation reference.
 5. State scope when behavior is specific to a project, version, provider, mapping, medium, or region.
 
+For a project-catalogue change, also include the media types, project role, capture method, source availability, licence when published, and contribution URL. Use a first-party project page or repository. Keep one project or correction per change.
+
 ## Good interoperability reports
 
 Include:
@@ -59,3 +61,5 @@ Explain:
 - follow-up work
 
 Small, coherent changes are easier to validate than broad rewrites.
+
+Knowledge changes must keep the [Open Knowledge Format v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf) bundle conformant: a versioned root index, typed concept documents, stable links and source provenance.

@@ -13,9 +13,11 @@ Scrobble.dev is an open knowledge site for scrobbling, media tracking, interoper
 ## Architecture
 
 - `src/pages/` — canonical human-facing pages.
+- `src/data/projects.mjs` — source for the filterable project catalogue and its structured data.
 - `src/layouts/` — shared semantic layout and structured-data behavior.
-- `src/styles/` — centralized Material You design tokens and accessibility behavior.
-- `public/knowledge/` — OKF-style Markdown knowledge bundle; stable URLs are part of the interface.
+- `src/styles/` — centralized editorial design tokens and accessibility behavior.
+- `public/knowledge/` — conformant Open Knowledge Format v0.2 bundle; stable URLs are part of the interface.
+- `src/pages/projects.json.js` and `src/pages/projects.csv.js` — generated catalogue distributions from the canonical project data.
 - `public/llms.txt` — agent discovery map.
 - `public/robots.txt` — crawler guidance and sitemap discovery.
 - `wrangler.jsonc` — Cloudflare static-assets deployment target.
@@ -59,20 +61,23 @@ Cloudflare account/project binding and DNS are intentionally not committed as se
 - Reduced-motion support.
 - Responsive single-column reading paths.
 - No color-only state communication.
-- Restrained motion and atmospheric decoration to reduce distraction.
+- No attention-seeking animation, ornamental gradients or repeated card chrome.
+- Explicit mobile guidance when a comparison table scrolls horizontally.
 - Nielsen heuristic and Gestalt reviews are expected for material UI changes.
 
 ## Structured discovery
 
-Pages include canonical metadata and JSON-LD. The project uses specific Schema.org types where they describe the visible content accurately (`WebSite`, `WebPage`, `TechArticle`, `DefinedTerm`, `DefinedTermSet`, `SoftwareApplication`). Do not add structured data only to chase rich results; markup must match visible content.
+Pages include canonical metadata and JSON-LD. The project uses specific Schema.org types where they describe the visible content accurately (`WebSite`, `WebPage`, `TechArticle`, `DefinedTerm`, `DefinedTermSet`, `SoftwareApplication`, `CollectionPage`, `ItemList`, `Dataset`, `DataDownload`, `FAQPage`, `BreadcrumbList`). Do not add structured data only to chase rich results; markup must match visible content.
 
 ## Open Knowledge Format
 
-`public/knowledge/` follows the Open Knowledge Format direction: Markdown concepts, YAML frontmatter, stable paths, ordinary links, and version-controlled provenance. The knowledge layer is intentionally useful without a proprietary service.
+`public/knowledge/` conforms to [Open Knowledge Format v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf): Markdown concepts, YAML frontmatter, stable paths, ordinary links, and version-controlled provenance. `index.md` declares the bundle version. Every other Markdown concept has a non-empty `type`.
 
 ## Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md). For product implementation work, start with [Floppy issues](https://github.com/dannyvfilms/Floppy/issues).
+
+The catalogue at `/projects/` accepts corrections supported by a first-party project page or repository. The visible table, JSON, CSV, OKF concept and Dataset JSON-LD all derive from the same project records.
 
 ## Support maintainers
 
