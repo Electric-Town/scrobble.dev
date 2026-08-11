@@ -188,6 +188,7 @@ pre { margin: 0 0 34px; padding: 28px; overflow: auto; border-left: 5px solid va
 .catalogue-empty { padding: 22px 0; border-bottom: 1px solid var(--rule); }
 
 .article { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: clamp(44px, 8vw, 110px); align-items: start; }
+.article > .article-body:only-child { grid-column: 1 / -1; width: min(100%, 78ch); margin-inline: auto; }
 .article-body h1 { font-size: clamp(2.8rem, 5vw, 4.7rem); }
 .article-body h2 { margin-top: 2.5rem; font-size: clamp(2rem, 3.4vw, 3rem); }
 .article-body h3 { margin-top: 2rem; }
