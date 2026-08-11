@@ -17,6 +17,9 @@ test('serves the validated static build through the Sites worker', async () => {
   assert.equal(head.status, 200);
   assert.equal(await head.text(), '');
 
+  const csv = await worker.fetch(new Request('https://scrobble.dev/projects.csv'));
+  assert.match(csv.headers.get('content-type'), /^text\/csv/);
+
   assert.equal((await worker.fetch(new Request('https://scrobble.dev/not-a-route'))).status, 404);
   assert.equal((await worker.fetch(new Request('https://scrobble.dev/', { method: 'POST' }))).status, 405);
 });
