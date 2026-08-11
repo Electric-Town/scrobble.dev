@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const title='What is scrobbling? — Scrobble.dev';
+const description='A practical definition and history of scrobbling, how scrobble events work, and how tracking differs across movies, TV, anime, books, manga, comics, games, music, podcasts, and board games.';
+const schema=[{
+  '@context':'https://schema.org','@type':'TechArticle',headline:'What is scrobbling?',description,dateModified:'2026-08-11',author:{'@type':'Organization',name:'Scrobble.dev'},mainEntityOfPage:'https://scrobble.dev/learn/scrobbling/'
+},{
+  '@context':'https://schema.org','@type':'DefinedTerm',name:'Scrobbling',description:'Recording media consumption events and progress so a user can preserve and synchronize a media history.',inDefinedTermSet:'https://scrobble.dev/#scrobbling-knowledge'
+}];
+---
+<BaseLayout {title} {description} type="TechArticle" schema={schema}>
+  <div class="shell section article">
+    <article class="article-body">
+      <p class="eyebrow">Learn</p><h1>What is scrobbling?</h1>
+      <p class="lede">Scrobbling is the recording of media consumption as an event: what was consumed, when it happened, how far it progressed, and enough identity information to connect the event to the correct work.</p>
+      <h2 id="origin">Where the term came from</h2>
+      <p>The word became widely associated with music tracking through Audioscrobbler and Last.fm, where listening software submitted tracks as they played. The useful idea is broader than music: software observes or receives a media event and records it into a history that can later support progress, statistics, discovery, synchronization, or archival use.</p>
+      <p>Today, similar behavior appears in movie and television trackers, reading logs, podcast history, game activity, media servers, watchlists, recommendation systems, and personal data tools—even when those products do not use the word “scrobble.”</p>
+      <h2 id="event">The anatomy of a scrobble</h2>
+      <div class="definition"><strong>Subject</strong><span>The media entity being consumed: a film, episode, track, podcast episode, book, chapter, game, manga volume, comic issue, board-game session, or another defined unit.</span></div>
+      <div class="definition"><strong>Identity</strong><span>The IDs and metadata needed to resolve that subject across databases and services.</span></div>
+      <div class="definition"><strong>Time</strong><span>When the event began, completed, or was recorded. These are not always the same timestamp.</span></div>
+      <div class="definition"><strong>Progress</strong><span>A percentage, position, page, episode, duration, completion state, or another domain-appropriate measure.</span></div>
+      <div class="definition"><strong>Provenance</strong><span>Where the event came from: playback, manual entry, import, synchronization, API, webhook, correction, or inference.</span></div>
+      <div class="definition"><strong>Context</strong><span>Optional details such as device, platform, edition, source, season, language, version, or rewatch/reread status.</span></div>
+      <h2 id="why">Why people scrobble</h2>
+      <p>The immediate benefit is continuity: knowing what happened and what comes next. The longer-term benefit is portability. A well-kept event history can outlive a player, streaming subscription, tracker, metadata provider, or recommendation service.</p>
+      <p>The same data can support annual recaps, progress dashboards, personal statistics, recommendation models, collection maintenance, duplicate detection, migration, media research, and long-lived personal archives.</p>
+      <h2 id="media">How the event changes by medium</h2>
+      <h3>Movies</h3><p>A movie scrobble usually represents a viewing or rewatch. Useful fields include title identity, edition where relevant, timestamp, progress/completion, playback source, and whether the play is a repeat.</p>
+      <h3>Television and anime</h3><p>Episode identity matters. A robust tracker separates show, season, episode and alternate numbering schemes, because specials, split cours, absolute numbering, and provider-specific season layouts routinely disagree.</p>
+      <h3>Books</h3><p>Books can be tracked as starts, page or percentage progress, finished readings, rereads, and edition-specific activity. ISBNs help, but editions and ebook/audiobook variants mean identity still needs care.</p>
+      <h3>Manga and comics</h3><p>Chapter, volume and issue identity may coexist. A tracking system should avoid assuming that every source packages the same work into identical volumes or chapters.</p>
+      <h3>Music</h3><p>Music scrobbles are commonly track-level plays, often accepted after a playback threshold. Artist, recording, release, duration and canonical IDs improve reconciliation.</p>
+      <h3>Podcasts</h3><p>Podcast tracking is naturally episode-level and benefits from feed identity, GUIDs, publication dates, duration and playback position.</p>
+      <h3>Video games</h3><p>Games may be tracked through sessions, playtime, progress and completion states. Platform and release identity matter because one title can have materially different versions.</p>
+      <h3>Board games</h3><p>A board-game scrobble is closer to a logged play: game identity, date, participants, duration, score or result, and optional expansion context.</p>
+      <h2 id="not">What scrobbling is not</h2>
+      <p>A watchlist is intent; a scrobble is activity. A library is ownership or availability; a scrobble is history. A rating is an opinion; a scrobble records consumption. Good trackers connect these concepts but do not collapse them into one field.</p>
+      <h2 id="next">Where to go next</h2>
+      <p>Read the <a href="/standard/">working interoperability principles</a>, then explore <a href="/projects/floppy/">Floppy as a reference implementation</a>. Developers and data practitioners can contribute definitions, event examples, mappings, edge cases, tests and implementation guidance.</p>
+    </article>
+    <aside class="toc" aria-label="On this page"><strong>On this page</strong><ul><li><a href="#origin">History</a></li><li><a href="#event">Anatomy</a></li><li><a href="#why">Why scrobble</a></li><li><a href="#media">By medium</a></li><li><a href="#not">What it is not</a></li><li><a href="#next">Next steps</a></li></ul></aside>
+  </div>
+</BaseLayout>
