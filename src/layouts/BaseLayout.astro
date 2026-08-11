@@ -1,0 +1,111 @@
+---
+import '../styles/global.css';
+
+const {
+  title = 'Scrobble.dev — a field guide to scrobbling',
+  description = 'What scrobbling records, where it came from, and how trackers can exchange media history without flattening every medium into the same model.',
+  canonical = Astro.url.pathname,
+  type = 'WebPage',
+  schema = [],
+  markdown
+} = Astro.props;
+
+const canonicalUrl = new URL(canonical, Astro.site ?? 'https://scrobble.dev');
+const pathname = Astro.url.pathname;
+const baseSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': 'https://scrobble.dev/#website',
+    url: 'https://scrobble.dev/',
+    name: 'Scrobble.dev',
+    description: 'A field guide to scrobbling and media-tracking interoperability.',
+    inLanguage: 'en'
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': type,
+    '@id': `${canonicalUrl.href}#page`,
+    url: canonicalUrl.href,
+    name: title,
+    description,
+    isPartOf: { '@id': 'https://scrobble.dev/#website' },
+    inLanguage: 'en',
+    dateModified: '2026-08-11'
+  },
+  ...schema
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#f4f0e7" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM index" />
+    {markdown && <link rel="alternate" type="text/markdown" href={markdown} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Scrobble.dev" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <title>{title}</title>
+    {baseSchema.map((item) => <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />)}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" id="top">
+      <div class="shell masthead">
+        <a class="wordmark" href="/" aria-label="Scrobble.dev home">scrobble.dev</a>
+        <p>A field guide to media tracking</p>
+        <a href="https://github.com/Electric-Town/scrobble.dev">Source on GitHub</a>
+      </div>
+      <nav class="shell nav" aria-label="Primary navigation">
+        <a href="/learn/scrobbling/" aria-current={pathname.startsWith('/learn/') ? 'page' : undefined}>Definition</a>
+        <a href="/standard/" aria-current={pathname.startsWith('/standard/') ? 'page' : undefined}>Draft rules</a>
+        <a href="/projects/" aria-current={pathname === '/projects/' ? 'page' : undefined}>Project catalogue</a>
+        <a href="/faq/" aria-current={pathname.startsWith('/faq/') ? 'page' : undefined}>FAQ</a>
+        <a href="/projects/floppy/" aria-current={pathname.startsWith('/projects/floppy') ? 'page' : undefined}>Floppy</a>
+        <a href="/contribute/" aria-current={pathname.startsWith('/contribute/') ? 'page' : undefined}>Contribute</a>
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer h-card">
+      <div class="shell footer-grid">
+        <div>
+          <a class="wordmark p-name u-url" href="https://scrobble.dev/">scrobble.dev</a>
+          <p class="p-note">A field guide to scrobbling and media-tracking interoperability.</p>
+        </div>
+        <nav aria-label="Project links">
+          <p>Projects</p>
+          <a href="/projects/">Scrobbling catalogue</a>
+          <a href="/faq/">Frequently asked questions</a>
+          <a href="https://github.com/dannyvfilms/Floppy">Floppy</a>
+          <a href="https://github.com/Electric-Town/FloppyDesktop">FloppyDesktop</a>
+        </nav>
+        <nav aria-label="Contribution links">
+          <p>Contribute</p>
+          <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">Improve this field guide</a>
+          <a href="https://github.com/dannyvfilms/Floppy/issues">Work on Floppy</a>
+          <a href="https://github.com/Electric-Town/scrobble.dev/issues/new">Add or correct a project</a>
+        </nav>
+        <nav aria-label="Sponsor links">
+          <p>Support the maintainers</p>
+          <a href="https://github.com/sponsors/dannyvfilms">Sponsor Danny</a>
+          <a href="https://github.com/sponsors/ryan-winkler">Sponsor Ryan</a>
+        </nav>
+      </div>
+      <div class="shell footer-bottom">
+        <span>Discussion draft 0.1</span>
+        <span>Last revised 11 August 2026</span>
+      </div>
+    </footer>
+  </body>
+</html>

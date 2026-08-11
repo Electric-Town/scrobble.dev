@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const title = 'Contribute to Scrobble.dev or Floppy — Scrobble.dev';
+const description = 'Add source-backed scrobbling knowledge to Scrobble.dev or bring a reproducible tracking failure, fixture, test or code change to Floppy.';
+---
+<BaseLayout {title} {description}>
+  <div class="shell">
+    <section class="hero" aria-labelledby="contribute-title">
+      <p class="eyebrow">Contribute</p>
+      <h1 id="contribute-title">Contribute to the guide or the software.</h1>
+      <p class="lede">Scrobble.dev documents definitions, project evidence and edge cases. Floppy turns reproducible failures into software changes. The two routes support each other but ask for different evidence.</p>
+    </section>
+
+    <section class="section" aria-labelledby="paths">
+      <div class="section-intro"><p class="section-label">Two ways in</p><h2 id="paths">Knowledge on one side. Software on the other.</h2></div>
+      <div class="contribution-lanes">
+        <article>
+          <p class="project-type">Scrobble.dev</p>
+          <h3>Add or correct knowledge</h3>
+          <p>Bring a first-party source, a factual summary and one missing or incorrect claim. Project catalogue entries must name the media type, role, capture method, source availability and contribution route.</p>
+          <ul><li>Use plain Markdown and stable links.</li><li>Keep one topic or correction per change.</li><li>Separate documented behaviour from interpretation.</li></ul>
+          <div class="project-links"><a class="button primary" href="https://github.com/Electric-Town/scrobble.dev/issues/new">Suggest a site change</a><a href="https://github.com/Electric-Town/scrobble.dev">Edit the repository</a></div>
+        </article>
+        <article>
+          <p class="project-type">Floppy</p>
+          <h3>Fix a tracking failure</h3>
+          <p>Name the media identity, the observed event, what the software recorded and what should survive a retry, correction, import or export.</p>
+          <ul><li>Add an anonymized example or reproducible sequence.</li><li>Name provider identifiers and numbering schemes.</li><li>Include a round-trip test when code changes behaviour.</li></ul>
+          <div class="project-links"><a class="button primary" href="https://github.com/dannyvfilms/Floppy/issues">Browse Floppy issues</a><a href="https://github.com/dannyvfilms/Floppy/blob/latest/CONTRIBUTING.md">Read the contribution guide</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section article" aria-labelledby="issue-title">
+      <div class="article-body">
+        <p class="section-label">A useful issue</p>
+        <h2 id="issue-title">Make the problem reconstructable.</h2>
+        <div class="definition"><strong>Context</strong><span>Media type, player, tracker, integration direction and relevant versions.</span></div>
+        <div class="definition"><strong>Identity</strong><span>Provider IDs and titles, with personal account identifiers removed.</span></div>
+        <div class="definition"><strong>Observed</strong><span>The event or state that actually occurred.</span></div>
+        <div class="definition"><strong>Expected</strong><span>The event or state that should have resulted and why.</span></div>
+        <div class="definition"><strong>Round trip</strong><span>What happens after export, repeat synchronization, correction and import.</span></div>
+        <div class="definition"><strong>Evidence</strong><span>Logs, API payloads, fixtures, screenshots or documentation sufficient to verify the claim.</span></div>
+      </div>
+    </section>
+
+    <p class="reference-note">Knowledge contributions also update the <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf">Open Knowledge Format v0.2</a> bundle when a reusable concept changes.</p>
+  </div>
+</BaseLayout>

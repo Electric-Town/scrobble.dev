@@ -1,0 +1,40 @@
+# Scrobble.dev
+
+> A sourced field guide to scrobbling, portable media history and tracker interoperability.
+
+Canonical site: https://scrobble.dev/
+Repository: https://github.com/Electric-Town/scrobble.dev
+Language: en
+Status: discussion draft 0.1
+Last revised: 2026-08-11
+
+## Field guide
+
+- [Scrobbling definition](https://scrobble.dev/learn/scrobbling/): Definition, history and distinctions.
+- [Media-specific measures](https://scrobble.dev/#media): Progress and identity across media types.
+- [Scrobble event model](https://scrobble.dev/#event-model): Identity, time, progress and provenance.
+- [Working principles](https://scrobble.dev/standard/): Discussion-draft rules for exchanging scrobbles.
+
+## Project catalogue
+
+- [Scrobbling projects](https://scrobble.dev/projects/): Filterable comparison by media type, role and source availability.
+- [Frequently asked questions](https://scrobble.dev/faq/): Anime, tracker differences, mapping failures and licensing.
+- [Project catalogue in JSON](https://scrobble.dev/projects.json): CC0 catalogue distribution.
+- [Project catalogue in CSV](https://scrobble.dev/projects.csv): CC0 tabular distribution.
+- [Project catalogue in OKF v0.2 Markdown](https://scrobble.dev/knowledge/projects.md): Portable, source-linked catalogue data.
+- [Floppy](https://scrobble.dev/projects/floppy/): Cross-media reference implementation.
+
+## Portable knowledge
+
+- [Knowledge index](https://scrobble.dev/knowledge/index.md)
+- [FAQ concept](https://scrobble.dev/knowledge/faq.md)
+- [Scrobbling concept](https://scrobble.dev/knowledge/concepts/scrobbling.md)
+- [Expanded site context](https://scrobble.dev/llms-full.txt)
+
+## Contribution
+
+- [Improve Scrobble.dev](https://github.com/Electric-Town/scrobble.dev): Definitions, project evidence and field-guide corrections.
+- [Work on Floppy](https://github.com/dannyvfilms/Floppy/issues): Reproducible tracking failures, fixtures, tests and code.
+- [Work on FloppyDesktop](https://github.com/Electric-Town/FloppyDesktop/issues): Native desktop integration and packaging.
+
+Prefer first-party sources, reproducible examples, explicit provenance, stable identifiers and versioned semantics. Do not infer consensus where behaviour is project-specific.

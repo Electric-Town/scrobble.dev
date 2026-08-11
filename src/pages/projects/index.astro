@@ -1,0 +1,159 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { MEDIA, PROJECTS, ROLES, SOURCE_OPTIONS } from '../../data/projects.mjs';
+
+const title = 'Scrobbling project catalogue — Scrobble.dev';
+const description = 'A source-checked catalogue of scrobbling services, trackers, clients and connectors, filterable by media type and project role.';
+const dataset = {
+  '@context': 'https://schema.org',
+  '@type': 'Dataset',
+  '@id': 'https://scrobble.dev/projects/#dataset',
+  name: 'Scrobbling project catalogue',
+  description,
+  url: 'https://scrobble.dev/projects/',
+  version: '0.2',
+  dateModified: '2026-08-11',
+  license: 'https://creativecommons.org/publicdomain/zero/1.0/',
+  isAccessibleForFree: true,
+  keywords: ['scrobbling', 'media tracking', 'watch history', 'listening history', 'open source'],
+  creator: { '@type': 'Organization', name: 'Electric Town', url: 'https://github.com/Electric-Town' },
+  distribution: [
+    { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: 'https://scrobble.dev/projects.json' },
+    { '@type': 'DataDownload', encodingFormat: 'text/csv', contentUrl: 'https://scrobble.dev/projects.csv' },
+    { '@type': 'DataDownload', encodingFormat: 'text/markdown', contentUrl: 'https://scrobble.dev/knowledge/projects.md' }
+  ]
+};
+const itemList = {
+  '@type': 'ItemList',
+  '@id': 'https://scrobble.dev/projects/#catalogue',
+  name: 'Scrobbling project catalogue',
+  numberOfItems: PROJECTS.length,
+  itemListOrder: 'https://schema.org/ItemListUnordered',
+  itemListElement: PROJECTS.map((project, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'SoftwareApplication',
+      name: project.name,
+      description: project.summary,
+      url: project.url,
+      applicationCategory: project.role,
+      ...(project.repository ? { codeRepository: project.repository } : {}),
+      ...(project.license ? { license: project.license } : {})
+    }
+  }))
+};
+const schema = [
+  dataset,
+  { '@context': 'https://schema.org', ...itemList },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Scrobble.dev', item: 'https://scrobble.dev/' },
+      { '@type': 'ListItem', position: 2, name: 'Project catalogue', item: 'https://scrobble.dev/projects/' }
+    ]
+  }
+];
+---
+<BaseLayout {title} {description} type="CollectionPage" schema={schema} markdown="/knowledge/projects.md">
+  <article class="shell catalogue-hero h-entry">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Field guide</a><span aria-hidden="true">/</span><span aria-current="page">Project catalogue</span></nav>
+    <p class="kicker">Community index</p>
+    <h1 class="p-name">Scrobbling projects, compared by what they record.</h1>
+    <p class="standfirst e-summary">This table covers active services, trackers, clients and connectors with a first-party source. It records what each project says it does; inclusion is not an endorsement.</p>
+    <p class="catalogue-method">Checked 11 August 2026. Filter by medium, role or source availability. A project can appear under more than one medium.</p>
+  </article>
+
+  <section class="catalogue-band" aria-labelledby="catalogue-title">
+    <div class="shell section">
+      <div class="catalogue-heading"><p class="section-label">{PROJECTS.length} source-checked entries</p><h2 id="catalogue-title">Find a tracker, client or connector</h2></div>
+      <div class="catalogue">
+        <form class="catalogue-filters" aria-label="Filter project catalogue">
+          <label>Media type<select id="media-filter"><option>All</option>{MEDIA.map((item) => <option>{item}</option>)}</select></label>
+          <label>Project role<select id="role-filter"><option>All</option>{ROLES.map((item) => <option>{item}</option>)}</select></label>
+          <label>Source availability<select id="source-filter"><option>All</option>{SOURCE_OPTIONS.map((item) => <option>{item}</option>)}</select></label>
+        </form>
+        <p class="catalogue-count" id="catalogue-count" aria-live="polite">Showing {PROJECTS.length} of {PROJECTS.length} projects</p>
+        <p class="catalogue-data">Download the catalogue as <a href="/projects.json">JSON</a>, <a href="/projects.csv">CSV</a> or <a href="/knowledge/projects.md">OKF v0.2 Markdown</a>. The catalogue is released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>; linked projects and their data keep their own terms.</p>
+        <p class="catalogue-scroll-hint" id="catalogue-scroll-hint">Swipe the table sideways to compare every column.</p>
+        <div class="catalogue-scroll" role="region" aria-label="Scrobbling projects table" aria-describedby="catalogue-scroll-hint" tabindex="0">
+          <table>
+            <caption class="sr-only">Source-checked scrobbling projects. Use the column buttons to sort.</caption>
+            <thead><tr>
+              <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="name">Project</button></th>
+              <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="media">Media</button></th>
+              <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="role">Role</button></th>
+              <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="capture">Capture method</button></th>
+              <th scope="col" aria-sort="none"><button class="sort-button" type="button" data-sort="source">Source and contribution</button></th>
+            </tr></thead>
+            <tbody>
+              {PROJECTS.map((project) => (
+                <tr data-project-row data-name={project.name} data-media={project.media.join('|')} data-media-sort={project.media.join(', ')} data-role={project.role} data-capture={project.capture} data-source={project.source}>
+                  <th scope="row"><a href={project.url}>{project.name}</a><span>{project.summary}</span></th>
+                  <td>{project.media.join(', ')}</td><td>{project.role}</td><td>{project.capture}</td>
+                  <td><span>{project.source}{project.license ? ` · ${project.license}` : ''}</span><a href={project.contribute} aria-label={`Contribute to ${project.name}`}>Contribute</a></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="catalogue-empty" id="catalogue-empty" hidden>No verified entry matches those filters. Suggest one with a first-party source.</p>
+        <p class="sr-only" id="sort-status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell section" aria-labelledby="gaps-title">
+    <div class="section-intro"><p class="section-label">Coverage gaps</p><h2 id="gaps-title">A short category is a question, not a verdict.</h2><p>Music has many specialist clients. Books, comics, podcasts and games currently rely on the two cross-media Floppy entries in this catalogue. If an active project is missing, add its first-party documentation and describe how it captures an event.</p><p><a href="/faq/">Read the FAQ</a> for a comparison of common services and the reasons anime and mapping systems need extra care.</p></div>
+  </section>
+
+  <section class="contribute-band" id="contribute" aria-labelledby="catalogue-contribute-title">
+    <div class="shell section">
+      <div class="section-intro"><p class="section-label">Two ways in</p><h2 id="catalogue-contribute-title">Correct the guide or improve the software.</h2></div>
+      <div class="contribution-lanes">
+        <article><p class="project-type">Scrobble.dev</p><h3>Add knowledge to the site</h3><p>Propose a missing project, correct a row or document a tracking edge case. Bring a first-party source, a short factual summary and the media event the project captures.</p><ul><li>Use plain Markdown and stable links.</li><li>Keep one correction or topic per change.</li><li>Separate documented behaviour from interpretation.</li></ul><div class="project-links"><a class="button primary" href="https://github.com/Electric-Town/scrobble.dev/issues/new">Suggest a catalogue change</a><a href="https://github.com/Electric-Town/scrobble.dev">Edit the field guide</a></div></article>
+        <article><p class="project-type">Floppy</p><h3>Fix a real tracking failure</h3><p>Report the media identity, the observed event, what the software recorded and what should survive a retry, correction, import or export.</p><ul><li>Add an anonymized example or reproducible sequence.</li><li>Name the provider identifiers and numbering scheme.</li><li>Include a round-trip test when code changes behaviour.</li></ul><div class="project-links"><a class="button primary" href="https://github.com/dannyvfilms/Floppy/issues">Browse Floppy issues</a><a href="https://github.com/dannyvfilms/Floppy/blob/latest/CONTRIBUTING.md">Read the contribution guide</a></div></article>
+      </div>
+      <p class="reference-note">The machine-readable knowledge bundle follows <a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf">Open Knowledge Format v0.2</a>: Markdown concepts, YAML frontmatter, stable paths and ordinary links.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const media = document.querySelector<HTMLSelectElement>('#media-filter');
+  const role = document.querySelector<HTMLSelectElement>('#role-filter');
+  const source = document.querySelector<HTMLSelectElement>('#source-filter');
+  const rows = Array.from(document.querySelectorAll<HTMLTableRowElement>('[data-project-row]'));
+  const count = document.querySelector<HTMLElement>('#catalogue-count');
+  const empty = document.querySelector<HTMLElement>('#catalogue-empty');
+  const body = document.querySelector<HTMLTableSectionElement>('.catalogue tbody');
+  const sortStatus = document.querySelector<HTMLElement>('#sort-status');
+  const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+
+  function updateCatalogue() {
+    let visible = 0;
+    for (const row of rows) {
+      const matches = (media?.value === 'All' || row.dataset.media?.split('|').includes(media?.value ?? '')) && (role?.value === 'All' || row.dataset.role === role?.value) && (source?.value === 'All' || row.dataset.source === source?.value);
+      row.hidden = !matches;
+      if (matches) visible += 1;
+    }
+    if (count) count.textContent = `Showing ${visible} of ${rows.length} projects`;
+    if (empty) empty.hidden = visible !== 0;
+  }
+
+  for (const filter of [media, role, source]) filter?.addEventListener('change', updateCatalogue);
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-sort]')) {
+    button.addEventListener('click', () => {
+      const header = button.closest<HTMLTableCellElement>('th');
+      const direction = header?.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
+      for (const other of document.querySelectorAll<HTMLTableCellElement>('.catalogue thead th')) other.setAttribute('aria-sort', other === header ? direction : 'none');
+      const key = button.dataset.sort ?? 'name';
+      const value = (row: HTMLTableRowElement) => row.dataset[key === 'media' ? 'mediaSort' : key] ?? '';
+      rows.sort((left, right) => collator.compare(value(left), value(right)) * (direction === 'descending' ? -1 : 1));
+      for (const row of rows) body?.append(row);
+      if (sortStatus) sortStatus.textContent = `Sorted by ${button.textContent?.trim()} ${direction}.`;
+    });
+  }
+</script>

@@ -1,0 +1,42 @@
+# Scrobble.dev: expanded context
+
+Canonical site: https://scrobble.dev/
+Language: en
+Status: discussion draft 0.1
+Last revised: 2026-08-11
+
+## Definition
+
+A scrobble is a time-stamped record that a person played, watched, read or listened to a specific piece of media. The record may also carry native progress, duration, completion state and provenance.
+
+A watchlist records intent. A collection records ownership or availability. A rating records opinion. A scrobble records an event. A tracker can connect those concepts without treating them as the same field.
+
+## Portable event core
+
+1. Stable event identity makes an ordinary retry harmless.
+2. Media identity retains the work, edition, season, episode, track, chapter, platform or play that was known.
+3. Named timestamps distinguish playback start, completion, diary date, import time and receipt time.
+4. Native progress retains seconds, pages, chapters, sessions or turns instead of forcing every medium into a percentage.
+5. Provenance distinguishes manual entry, player telemetry, webhook, import, inference and synchronized copy.
+6. Correction and deletion allow a person to repair misidentified media and duplicated imports.
+7. A documented export allows the person to inspect and move their history.
+
+## Project coverage
+
+The catalogue at https://scrobble.dev/projects/ contains 17 source-checked entries. It includes common services such as Trakt, Simkl, Letterboxd and WeTrakr alongside open-source trackers, clients and connectors. Books, comics, podcasts and games currently rely on Floppy and FloppyDesktop in this catalogue. A short category is documented as a coverage gap, not as evidence that no other project exists.
+
+The portable catalogue is available as OKF v0.2 Markdown at https://scrobble.dev/knowledge/projects.md, JSON at https://scrobble.dev/projects.json and CSV at https://scrobble.dev/projects.csv. The catalogue is CC0; linked projects and upstream databases retain their own terms.
+
+## Frequently asked questions
+
+The FAQ at https://scrobble.dev/faq/ explains why anime has a separate catalogue facet, how common trackers differ, why mapping systems proliferate, what selected Nuvio Mobile issues do and do not establish, and why commercial reuse needs an explicit data licence and provenance.
+
+## Contribution boundaries
+
+Scrobble.dev accepts source-backed definitions, catalogue corrections and documented tracking edge cases. Changes should be plain Markdown where possible, use stable links, cover one claim or topic and separate documented behaviour from interpretation.
+
+Floppy accepts reproducible tracking failures, anonymized examples, provider identifiers, numbering schemes, fixtures, round-trip tests and code. Start at https://github.com/dannyvfilms/Floppy/issues.
+
+## Source policy
+
+Prefer a project's own documentation, repository or protocol. Record the date checked. Do not manufacture consensus, support claims or compatibility. Inclusion in the catalogue is not an endorsement.
