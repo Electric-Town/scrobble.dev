@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const title='Floppy — self-hosted all-media tracking | Scrobble.dev';
+const description='Floppy is a self-hosted media tracker and personal media diary spanning movies, TV, anime, manga, books, comics, games, board games, music, and podcasts.';
+const schema=[{
+  '@context':'https://schema.org','@type':'SoftwareApplication',name:'Floppy',applicationCategory:'MultimediaApplication',operatingSystem:'Docker / self-hosted',description,softwareHelp:'https://github.com/dannyvfilms/Floppy/wiki',codeRepository:'https://github.com/dannyvfilms/Floppy',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'},isAccessibleForFree:true
+}];
+---
+<BaseLayout {title} {description} schema={schema}>
+  <div class="shell">
+    <section class="hero">
+      <p class="eyebrow">Reference implementation</p><h1>Floppy</h1>
+      <p class="lede">A self-hosted, all-in-one media tracker and personal media diary. It brings movies, television, anime, manga, books, comics, games, board games, music, and podcasts into one library, history, progress model, and statistics surface.</p>
+      <div class="actions"><a class="button primary" href="https://github.com/dannyvfilms/Floppy">View source</a><a class="button tonal" href="https://github.com/dannyvfilms/Floppy/issues">Contribute to Floppy</a><a class="button outline" href="https://github.com/Electric-Town/FloppyDesktop">FloppyDesktop</a></div>
+    </section>
+    <section class="section">
+      <div class="reading"><p class="eyebrow">Why it matters here</p><h2>Broad media coverage makes edge cases visible.</h2><p>Scrobble.dev uses Floppy as a practical test bed because a model that works only for films or music is not yet a general media-tracking model. Reading progress, anime numbering, podcast episodes, music plays, game sessions, rewatches, ownership, imports and live playback expose different interoperability problems.</p></div>
+      <div class="grid">
+        <article class="card"><h3>Unified history</h3><p>One timeline across watching, reading, playing and listening makes event semantics visible instead of hiding them behind separate products.</p></article>
+        <article class="card"><h3>Portable data</h3><p>CSV import/export and integrations make migration, reconciliation and round-trip behavior concrete engineering concerns.</p></article>
+        <article class="card"><h3>Integrations</h3><p>Playback and account integrations include Plex, Jellyfin, Emby, Pocket Casts, Last.fm, Audiobookshelf, Radarr, Sonarr and others.</p></article>
+        <article class="card"><h3>Developer surface</h3><p>A REST API and MCP server create a path for external tools to read and act on the same media model.</p></article>
+        <article class="card"><h3>Self-hosted</h3><p>Running on user-controlled infrastructure keeps the project aligned with data ownership and long-lived personal archives.</p></article>
+        <article class="card"><h3>Active backlog</h3><p>Real issues provide concrete contribution targets for sync, metadata, mappings, progress logic, imports, exports and integrations.</p></article>
+      </div>
+    </section>
+    <section class="section callout"><p class="eyebrow">Contribution funnel</p><h2>Start with a user-visible interoperability problem.</h2><p>Good first contributions do not require inventing a new standard. Reproduce a tracking failure, document the expected event semantics, identify the relevant IDs and provenance, add a test or example, then improve the implementation.</p><div class="actions"><a class="button primary" href="https://github.com/dannyvfilms/Floppy/issues">Browse Floppy issues</a><a class="button outline" href="/contribute/">Contribution guide</a></div></section>
+  </div>
+</BaseLayout>
