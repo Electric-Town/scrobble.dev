@@ -1,6 +1,6 @@
 # Scrobble.dev
 
-> A sourced field guide to scrobbling, portable media history and tracker interoperability.
+> Plain-language, source-linked guidance for turning media activity into durable history.
 
 Canonical site: https://scrobble.dev/
 Repository: https://github.com/Electric-Town/scrobble.dev

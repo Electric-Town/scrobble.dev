@@ -1,6 +1,6 @@
 export const SITE = {
   name: 'Scrobble.dev',
-  description: 'A field guide to scrobbling and media-tracking interoperability.',
+  description: 'Scrobbling explained: how media activity becomes a history you can keep and move.',
   primaryNavigation: [
     { label: 'Learn', href: '/learn/', match: ['/learn/', '/faq/'] },
     { label: 'Build', href: '/build/', match: ['/build/'] },

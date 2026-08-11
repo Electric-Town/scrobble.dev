@@ -11,7 +11,7 @@ const schema = [{ '@context': 'https://schema.org', '@type': 'TechArticle', head
       <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Field guide</a><span aria-hidden="true">/</span><span aria-current="page">Build</span></nav>
       <p class="kicker">Build</p>
       <h1>Record enough context to retry, correct and export.</h1>
-      <p class="standfirst">A reliable implementation distinguishes temporary observations from durable history, preserves the medium's native progress and makes an ordinary retry harmless.</p>
+      <p class="standfirst">Every retry, import and correction asks the same question: did the system preserve the event, or invent a second one? Start by separating temporary player state from durable history.</p>
 
       <h2>Start with the event boundary</h2>
       <p>Decide which input is temporary player state, which input updates progress and which input creates durable history. Do not rely on the transport endpoint to define the domain event.</p>

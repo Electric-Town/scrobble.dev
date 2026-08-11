@@ -15,7 +15,7 @@ sources:
 
 # Scrobbling
 
-Scrobbling records media activity as durable history: what was listened to, watched, read or played, and when it happened.
+A scrobble keeps a durable history of what someone watched, read, heard or played, and when. Scrobbling is the act of making that record.
 
 Last.fm traces Audioscrobbler to 2002.[^lastfm-history] Its retired submissions protocol distinguished temporary now-playing state from historical submissions.[^lastfm-submissions]
 

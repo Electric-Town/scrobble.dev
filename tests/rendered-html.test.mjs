@@ -24,7 +24,7 @@ test('builds the knowledge-first field guide and catalogue', async () => {
   assert.match(home, /A scrobble is a durable record/);
   assert.match(home, /I use trackers/);
   assert.match(home, /I build trackers/);
-  assert.match(learn, /Understand the record before choosing the tool/);
+  assert.match(learn, /Start with the record\. Then choose the tool/);
   assert.match(lifecycle, /When does media activity become history/);
   assert.match(build, /Record enough context to retry, correct and export/);
   assert.match(projects, /Search projects/);
