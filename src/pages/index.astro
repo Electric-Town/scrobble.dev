@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const schema = [{
+  '@context':'https://schema.org',
+  '@type':'DefinedTermSet',
+  '@id':'https://scrobble.dev/#scrobbling-knowledge',
+  name:'Scrobbling and media tracking knowledge',
+  url:'https://scrobble.dev/',
+  description:'Definitions, practices, interoperability guidance, and reference implementations for portable media tracking.'
+}];
+---
+<BaseLayout schema={schema}>
+  <div class="shell">
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="eyebrow">Open media-tracking knowledge</p>
+      <h1 id="hero-title">Your media history should travel with you.</h1>
+      <p class="lede">Scrobbling is the practice of recording what you watch, read, play, or listen to as it happens. Scrobble.dev documents the concepts, event shapes, identity problems, interoperability patterns, and open-source tools that make that history useful instead of trapped.</p>
+      <div class="actions">
+        <a class="button primary" href="/learn/scrobbling/">What is scrobbling?</a>
+        <a class="button tonal" href="/standard/">Read the working standard</a>
+        <a class="button outline" href="/contribute/">Contribute</a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="why">
+      <div class="reading"><p class="eyebrow">The purpose</p><h2 id="why">A history you can understand, move, and build on.</h2><p class="lede">A scrobble is more than a “watched” flag. Done well, it can preserve time, progress, identity, source, rating, edition, and provenance while still leaving the user in control.</p></div>
+      <div class="grid">
+        <article class="card"><h3>Remember</h3><p>Keep a durable record of films, episodes, books, chapters, games, music, podcasts, manga, comics, and other media activity.</p></article>
+        <article class="card"><h3>Continue</h3><p>Resume from the right episode, page, track, chapter, or play state without reconstructing progress across disconnected services.</p></article>
+        <article class="card"><h3>Understand</h3><p>Build trustworthy statistics, recaps, recommendations, discovery signals, and personal archives from events that retain context.</p></article>
+        <article class="card"><h3>Move</h3><p>Export, synchronize, reconcile, and migrate records without accepting one application as the permanent owner of your history.</p></article>
+        <article class="card"><h3>Integrate</h3><p>Give players, trackers, libraries, metadata providers, and analytics tools a shared vocabulary for exchanging media activity.</p></article>
+        <article class="card"><h3>Study</h3><p>Create cleaner datasets for data science, digital preservation, personal informatics, recommendation research, and media archaeology.</p></article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="forms">
+      <p class="eyebrow">Forms of scrobbling</p><h2 id="forms">One idea, different event models.</h2>
+      <div class="grid">
+        <article class="card wide"><h3>Watch</h3><p>Movies, television, anime and video can be recorded by play, completion threshold, episode progress, rewatch, or explicit user action.</p></article>
+        <article class="card wide"><h3>Read</h3><p>Books, manga and comics can use pages, percentage, chapters, volumes, editions, rereads, or completed works.</p></article>
+        <article class="card wide"><h3>Listen</h3><p>Music and podcasts commonly use playback thresholds, track or episode identity, duration, device source, and repeat count.</p></article>
+        <article class="card wide"><h3>Play</h3><p>Games and board games can capture sessions, duration, completion state, platform, campaign progress, or individual plays.</p></article>
+      </div>
+    </section>
+
+    <section class="section callout" aria-labelledby="reference">
+      <p class="eyebrow">Reference implementations</p><h2 id="reference">Use the ideas. Improve the tools.</h2>
+      <p class="lede">Floppy is a self-hosted, all-in-one media tracker spanning movies, TV, anime, manga, books, comics, games, board games, music, and podcasts. FloppyDesktop extends the ecosystem toward native desktop use. Scrobble.dev documents both without making either a prerequisite for participating in the wider scrobbling ecosystem.</p>
+      <div class="actions"><a class="button primary" href="/projects/floppy/">Explore Floppy</a><a class="button outline" href="https://github.com/dannyvfilms/Floppy/issues">Find an issue to help with</a></div>
+    </section>
+
+    <section class="section" aria-labelledby="principles">
+      <p class="eyebrow">Working principles</p><h2 id="principles">What good tracking should preserve.</h2>
+      <div class="reading standard">
+        <p><strong>User ownership.</strong> A person should be able to inspect and export their media history.</p>
+        <p><strong>Explicit identity.</strong> Records should identify the work, edition, season, episode, track, chapter, platform, or other relevant unit as precisely as practical.</p>
+        <p><strong>Event provenance.</strong> Consumers should be able to distinguish a manual entry, import, playback event, synchronization result, correction, and inferred state.</p>
+        <p><strong>Interoperability before lock-in.</strong> A tracker should make migration and synchronization normal operations, not exceptional escape hatches.</p>
+        <p><strong>Correction over permanence.</strong> Histories need deletion, deduplication, reconciliation, and amendment because real-world metadata and playback are messy.</p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
