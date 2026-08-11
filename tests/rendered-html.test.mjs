@@ -14,7 +14,7 @@ test('builds the editorial field guide and project catalogue', async () => {
     readFile(new URL('../dist/projects.csv', import.meta.url), 'utf8')
   ]);
 
-  assert.match(home, /Scrobbling records the media you actually use\./);
+  assert.match(home, /Scrobbling records what was played, watched or read\./);
   assert.match(home, /<title>Scrobble\.dev — a field guide to scrobbling<\/title>/);
   assert.match(home, /<link rel="canonical" href="https:\/\/scrobble\.dev\/">/);
   assert.match(home, /Eight rules for exchanging scrobbles/);
